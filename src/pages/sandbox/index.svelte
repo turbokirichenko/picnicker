@@ -7,7 +7,5 @@
 </script>
 
 <div>
-  SandBox here
-
   <Hcard {view} {hash} />
 </div>

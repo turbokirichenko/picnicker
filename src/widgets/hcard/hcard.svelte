@@ -3,48 +3,55 @@
   import { createBEM } from "../../shared/utils/create-bem.js";
   import helloEmojiSrc from "../../shared/assets/hello-emoji.svg";
   import ColorsGroup from "./colors-group.svelte";
+  import Header from "./header.svelte";
+  import Editor from "./editor.svelte";
+  import Viewer from "./viewer.svelte";
   import { COLORS } from "./constants";
+
   export let view = true;
-  export let hash = true;
+  export let hash = "";
+
   let color = COLORS[0];
   let darkTheme = false;
-  let checked = 0;
-  $: console.log(createBEM("contacts", "item", "type", color));
+
+  let contacts = ["", "", ""];
+  let bio = "";
+
+  const createHMC = (color, isDark, bio, contacts) => {
+    if (!color || !bio || !contacts.length) return false;
+    const contactMap = contacts.filter((co) => co.length).join("/");
+    const gateway = `${isDark ? "-" : "+"}${color}[${bio}/${contactMap}]`;
+    return window.btoa(gateway);
+  };
+
+  const decodeHMC = (hash) => {
+    if (!hash) return false;
+    const decodeText = window.atob(hash);
+    const matcher = [...decodeText.matchAll(/^(\+|\-)(\w+)\[(.*?)\]/g)][0];
+    console.log(matcher);
+    if (!matcher) return false;
+    darkTheme = matcher[1] === "-";
+    color = matcher[2];
+    [bio, ...contacts] = matcher[3].split("/");
+    console.log(darkTheme, color, bio, contacts);
+  };
+
+  $: console.log(decodeHMC(hash));
+  $: console.log(color, createHMC(color, darkTheme, bio, contacts));
+  const isDark = (theme) => (theme ? "dark" : "light");
 </script>
 
-<article
-  class={classes("hcard", createBEM("hcard", "", darkTheme ? "dark" : "light"))}
->
-  <header class="header">
-    {#each Array(7) as _}
-      <div
-        class={classes(
-          createBEM("header", "block"),
-          createBEM("contacts", "item", "type", color)
-        )}
-      />
-    {/each}
-  </header>
+<article class={classes("hcard", createBEM("hcard", "", isDark(darkTheme)))}>
+  <Header {color} />
   <img src={helloEmojiSrc} alt="hello emoji" class="hello-emoji" />
-  <p class="hcard__heading">Tap to set your bio</p>
-  <div class="contacts">
-    {#each Array(3) as _, i}
-      <!-- svelte-ignore a11y-click-events-have-key-events -->
-      <section
-        on:click={(e) => {
-          checked = i;
-        }}
-        class={classes(
-          createBEM("contacts", "item"),
-          createBEM("contacts", "item", i != checked && "disabled"),
-          createBEM("contacts", "item", "type", color)
-        )}
-      />
-    {/each}
-  </div>
-  <footer class="footer-bar">
-    <ColorsGroup bind:color bind:darkTheme />
-  </footer>
+  {#if view}
+    <Viewer {contacts} {color} {bio} theme={isDark(darkTheme)} />
+  {:else}
+    <Editor bind:contacts bind:bio {color} theme={isDark(darkTheme)} />
+    <footer class="footer-bar">
+      <ColorsGroup bind:color bind:darkTheme />
+    </footer>
+  {/if}
 </article>
 
 <style lang="scss">
@@ -74,15 +81,13 @@
     left: 0;
     background-color: #fff;
     box-shadow: 0px 0px 15px #19191920;
-    color: tomato;
-    padding: 40px 20px;
 
     @each $name, $color in $bg-colors {
       @include setBgItems($name, $color);
     }
 
     &__heading {
-      font-size: 14px;
+      font-size: 16px;
       margin: 0;
       text-align: left;
       line-height: 18px;
@@ -92,29 +97,11 @@
       overflow: hidden;
       color: #87878780;
       margin-bottom: 24px;
-    }
-  }
-
-  .header {
-    display: flex;
-    justify-content: flex-start;
-    align-items: stretch;
-    gap: 20px;
-    width: 100%;
-    height: 10px;
-    position: absolute;
-    top: 0;
-    left: 0;
-
-    &__block {
-      width: 20px;
-      height: 10px;
-      background-color: tomato;
-
-      &_type {
-        @each $name, $color in $colors {
-          @include setBgItems($name, $color);
-        }
+      background: none;
+      resize: none;
+      border: none;
+      &:focus {
+        outline: none;
       }
     }
   }
@@ -126,31 +113,6 @@
     top: 38px;
     width: 24px;
     height: 24px;
-  }
-
-  .contacts {
-    display: flex;
-    justify-content: flex-start;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 10px;
-
-    &__item {
-      width: 100%;
-      height: 24px;
-      border-radius: 5px;
-      background: tomato;
-
-      &_disabled {
-        opacity: 0.5;
-      }
-
-      &_type {
-        @each $name, $color in $colors {
-          @include setBgItems($name, $color);
-        }
-      }
-    }
   }
 
   .footer-bar {
