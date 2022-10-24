@@ -1,11 +1,22 @@
 <script>
+  import Routing from "./routing.svelte";
 </script>
 
-<main>
-  <h1 class=".hcard">Hcard club genesis</h1>
+<main class=".app">
+  <Routing />
 </main>
 
 <style lang="scss">
+  .app {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    position: relative;
+    top: 0;
+    left: 0;
+  }
+
   .heading {
     color: tomato;
     font-weight: 700;

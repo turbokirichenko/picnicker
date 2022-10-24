@@ -15,5 +15,7 @@
     "svelte-preprocess": "^4.10.7",
     "vite": "^3.1.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "svelte-spa-router": "^3.3.0"
+  }
 }
