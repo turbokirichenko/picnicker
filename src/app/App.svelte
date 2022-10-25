@@ -16,11 +16,4 @@
     top: 0;
     left: 0;
   }
-
-  .heading {
-    color: tomato;
-    font-weight: 700;
-    font-size: 2em;
-    font-family: "Courier New";
-  }
 </style>

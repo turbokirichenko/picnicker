@@ -1,7 +1,8 @@
 <script>
-  import { classes } from "../../shared/utils/classes.js";
-  import { createBEM } from "../../shared/utils/create-bem.js";
-  import helloEmojiSrc from "../../shared/assets/hello-emoji.svg";
+  import { classes } from "~/shared/utils/classes.js";
+  import { createBEM } from "~/shared/utils/create-bem.js";
+  import { decodeBase64, encodeBase64 } from "~/shared/utils/base64.js";
+  import helloEmojiSrc from "~/shared/assets/hello-emoji.svg";
   import ColorsGroup from "./colors-group.svelte";
   import Header from "./header.svelte";
   import Editor from "./editor.svelte";
@@ -16,29 +17,28 @@
 
   let contacts = ["", "", ""];
   let bio = "";
+  let isDark = (theme) => (theme ? "dark" : "light");
 
   const createHMC = (color, isDark, bio, contacts) => {
     if (!color || !bio || !contacts.length) return false;
-    const contactMap = contacts.filter((co) => co.length).join("/");
-    const gateway = `${isDark ? "-" : "+"}${color}[${bio}/${contactMap}]`;
-    return window.btoa(gateway);
+    const contactMap = contacts.filter((co) => co.length).join("|");
+    const gateway = `${isDark ? "-" : "+"}${color}[${bio}|${contactMap}]`;
+    return encodeBase64(gateway);
   };
 
   const decodeHMC = (hash) => {
     if (!hash) return false;
-    const decodeText = window.atob(hash);
+    const decodeText = decodeBase64(hash);
     const matcher = [...decodeText.matchAll(/^(\+|\-)(\w+)\[(.*?)\]/g)][0];
-    console.log(matcher);
     if (!matcher) return false;
     darkTheme = matcher[1] === "-";
     color = matcher[2];
-    [bio, ...contacts] = matcher[3].split("/");
-    console.log(darkTheme, color, bio, contacts);
+    [bio, ...contacts] = matcher[3].split("|");
+    return true;
   };
 
-  $: console.log(decodeHMC(hash));
+  $: decodeHMC(hash);
   $: console.log(color, createHMC(color, darkTheme, bio, contacts));
-  const isDark = (theme) => (theme ? "dark" : "light");
 </script>
 
 <article class={classes("hcard", createBEM("hcard", "", isDark(darkTheme)))}>
@@ -80,7 +80,7 @@
     top: 0;
     left: 0;
     background-color: #fff;
-    box-shadow: 0px 0px 15px #19191920;
+    box-shadow: 0px 0px 15px #19191930;
 
     @each $name, $color in $bg-colors {
       @include setBgItems($name, $color);

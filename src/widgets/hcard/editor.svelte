@@ -99,7 +99,7 @@
     justify-content: flex-start;
     flex-direction: column;
     align-items: stretch;
-    gap: 10px;
+    gap: 16px;
 
     &__item {
       width: 100%;
