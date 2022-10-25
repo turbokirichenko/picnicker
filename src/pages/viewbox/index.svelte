@@ -1,26 +1,11 @@
 <script>
-  import { location } from "svelte-spa-router";
-  import Hcard from "~/widgets/hcard/hcard.svelte";
-  import Layout from "~/widgets/layout/index.svelte";
+  import Page from "~/widgets/page/index.svelte";
+
   let view = true;
-  let hash = $location.split("/")[2];
+  let layer = Number(0);
 </script>
 
-<div class="page">
-  <Layout {view} />
-  <Hcard {view} {hash} />
-</div>
+<Page {view} bind:layer />
 
 <style lang="scss">
-  .page {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-  }
 </style>

@@ -3,13 +3,13 @@
   import Hcard from "~/widgets/hcard/hcard.svelte";
   import Layout from "~/widgets/layout/index.svelte";
   export let view = false;
+  export let layer = 0;
   let hash = $location.split("/")[2];
-  let screenBg = 0;
 </script>
 
 <div class="page">
-  <Layout {view} />
-  <Hcard {view} {hash} />
+  <Layout {view} bind:layer />
+  <Hcard {view} bind:hash />
 </div>
 
 <style lang="scss">
