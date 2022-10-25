@@ -2,8 +2,9 @@
   import { location } from "svelte-spa-router";
   import Hcard from "~/widgets/hcard/hcard.svelte";
   import Layout from "~/widgets/layout/index.svelte";
-  let view = true;
+  export let view = false;
   let hash = $location.split("/")[2];
+  let screenBg = 0;
 </script>
 
 <div class="page">

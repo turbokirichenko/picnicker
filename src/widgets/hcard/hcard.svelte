@@ -17,7 +17,7 @@
 
   let contacts = ["", "", ""];
   let bio = "";
-  let isDark = (theme) => (theme ? "dark" : "light");
+  let isDark = (theme) => (theme ? "light" : "dark");
 
   const createHMC = (color, isDark, bio, contacts) => {
     if (!color || !bio || !contacts.length) return false;
@@ -55,16 +55,7 @@
 </article>
 
 <style lang="scss">
-  $colors: (
-    tomato: tomato,
-    greenwood: #1fbc1a,
-    spaceline: #f77eff,
-  );
-
-  $bg-colors: (
-    dark: #222,
-    light: #fff,
-  );
+  @use "colors";
 
   @mixin setBgItems($name, $color) {
     &_#{$name} {
@@ -82,7 +73,7 @@
     background-color: #fff;
     box-shadow: 0px 0px 15px #19191930;
 
-    @each $name, $color in $bg-colors {
+    @each $name, $color in colors.$bg-colors {
       @include setBgItems($name, $color);
     }
 

@@ -47,21 +47,7 @@
 </div>
 
 <style lang="scss">
-  $colors: (
-    tomato: tomato,
-    greenwood: #1fbc1a,
-    spaceline: #f77eff,
-  );
-
-  $bg-colors: (
-    dark: #222,
-    light: #fff,
-  );
-
-  $ft-colors: (
-    dark: #fff,
-    light: #222,
-  );
+  @use "colors";
 
   .editor {
     display: block;
@@ -85,7 +71,7 @@
         outline: none;
       }
 
-      @each $name, $color in $ft-colors {
+      @each $name, $color in colors.$ft-colors {
         &_#{$name} {
           color: $color;
         }
@@ -135,7 +121,7 @@
       }
 
       &_type {
-        @each $name, $color in $colors {
+        @each $name, $color in colors.$colors {
           &_#{$name} {
             color: $color;
             background-color: $color;

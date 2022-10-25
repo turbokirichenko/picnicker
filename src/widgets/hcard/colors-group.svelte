@@ -40,25 +40,17 @@
 </div>
 
 <style lang="scss">
-  $colors: (
-    tomato: tomato,
-    greenwood: #1fbc1a,
-    spaceline: #f77eff,
-  );
-  $bg-colors: (
-    dark: #fff,
-    light: #222,
-  );
+  @use "colors";
 
-  @mixin setColorTheme($color: tomato) {
-    &_#{$color} {
-      background-color: map-get($colors, $color);
+  @mixin setColorTheme($name, $color) {
+    &_#{$name} {
+      background-color: $color;
     }
   }
 
-  @mixin setLabelTheme($theme: dark) {
+  @mixin setLabelTheme($theme, $color) {
     &_#{$theme} {
-      background-color: map-get($bg-colors, $theme);
+      background-color: $color;
     }
   }
 
@@ -78,8 +70,8 @@
     top: 0;
     left: 0;
     background-color: #222;
-    @each $name, $color in $bg-colors {
-      @include setLabelTheme($name);
+    @each $name, $color in colors.$bg-colors {
+      @include setLabelTheme($name, $color);
     }
 
     &__color {
@@ -101,8 +93,8 @@
       }
 
       &_type {
-        @each $name, $color in $colors {
-          @include setColorTheme($name);
+        @each $name, $color in colors.$colors {
+          @include setColorTheme($name, $color);
         }
       }
     }

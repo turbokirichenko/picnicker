@@ -16,16 +16,7 @@
 </header>
 
 <style lang="scss">
-  $colors: (
-    tomato: tomato,
-    greenwood: #1fbc1a,
-    spaceline: #f77eff,
-  );
-
-  $bg-colors: (
-    dark: #222,
-    light: #fff,
-  );
+  @use "colors";
 
   @mixin setBgItems($name, $color) {
     &_#{$name} {
@@ -47,10 +38,9 @@
     &__block {
       width: 20px;
       height: 10px;
-      background-color: tomato;
 
       &_type {
-        @each $name, $color in $colors {
+        @each $name, $color in colors.$colors {
           @include setBgItems($name, $color);
         }
       }

@@ -1,14 +1,16 @@
 <script>
-  import { location } from "svelte-spa-router";
   import Hcard from "~/widgets/hcard/hcard.svelte";
   import Layout from "~/widgets/layout/index.svelte";
+
+  export let location = "";
   let view = false;
-  let hash = $location.split("/")[2];
+  let [hash, bgName] = location.split("/")[2].split(".");
+  let layer = Number(bgName);
 </script>
 
 <div class="page">
-  <Layout />
-  <Hcard {view} {hash} />
+  <Layout {view} bind:layer />
+  <Hcard {view} bind:hash />
 </div>
 
 <style lang="scss">
