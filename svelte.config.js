@@ -12,8 +12,8 @@ export default {
   kit: {
     target: '#app',
     adapter: adapter({
-      pages: 'build',
-      assets: 'build',
+      pages: 'dist',
+      assets: 'dist',
       fallback: null
     })
   }
