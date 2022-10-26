@@ -145,7 +145,8 @@
 
       &:disabled {
         background: none;
-        &_empty {
+        opacity: 1;
+        &::placeholder {
           display: none;
         }
       }
@@ -158,6 +159,10 @@
 
       &_non-empty {
         background: none !important;
+      }
+
+      &_empty:disabled {
+        display: none;
       }
 
       &_disabled {
