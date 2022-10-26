@@ -1,10 +1,14 @@
 <script>
   import { classes } from "~/shared/utils/classes.js";
   import { createBEM } from "~/shared/utils/create-bem.js";
+  export let allowEdit = true;
+  export let theme;
   export let color;
   export let contacts;
-  export let theme;
   export let bio;
+
+  const maxSizeOfBio = 33;
+  const maxSizeOfInput = 256;
 
   let checked = 0;
   const setChecked = (i) => () => {
@@ -16,34 +20,41 @@
 </script>
 
 <div class="editor">
-  <textarea
-    rows="1"
-    maxlength="33"
-    bind:value={bio}
-    class={classes(
-      createBEM("editor", "heading"),
-      createBEM("editor", "heading", theme)
-    )}
-    placeholder="Tap to set your bio"
-  />
-  <div class="contacts">
-    {#each Array(3) as _, i}
-      <!-- svelte-ignore a11y-click-events-have-key-events -->
-      <input
-        type="text"
-        placeholder="phone / email / link ..."
-        bind:value={contacts[i]}
-        on:focus={setChecked(i)}
-        on:blur={breakChecked()}
-        class={classes(
-          createBEM("contacts", "item"),
-          createBEM("contacts", "item", i != checked && "disabled"),
-          createBEM("contacts", "item", "type", color),
-          createBEM("contacts", "item", contacts[i] ? "not-empty" : "empty")
-        )}
-      />
-    {/each}
-  </div>
+  <section class="editor__heading">
+    <textarea
+      rows="1"
+      maxlength={maxSizeOfBio}
+      disabled={!allowEdit}
+      bind:value={bio}
+      class={classes(createBEM("bioarea"), createBEM("bioarea", "", theme))}
+      placeholder={allowEdit ? "tap to change bio..." : "some bio"}
+    />
+    {#if bio && allowEdit && maxSizeOfBio - bio.length}
+      <div class="symbol-counter">{maxSizeOfBio - bio.length}</div>
+    {/if}
+  </section>
+  <section class="editor__content">
+    <div class="contacts">
+      {#each Array(3) as _, i}
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <input
+          type="text"
+          placeholder="phone / email / link ..."
+          disabled={!allowEdit}
+          maxlength={maxSizeOfInput}
+          bind:value={contacts[i]}
+          on:focus={setChecked(i)}
+          on:blur={breakChecked()}
+          class={classes(
+            createBEM("contacts", "item"),
+            createBEM("contacts", "item", i != checked && "disabled"),
+            createBEM("contacts", "item", "type", color),
+            createBEM("contacts", "item", contacts[i] ? "non-empty" : "empty")
+          )}
+        />
+      {/each}
+    </div>
+  </section>
 </div>
 
 <style lang="scss">
@@ -57,31 +68,61 @@
 
     &__heading {
       display: block;
-      resize: none;
-      border: none;
-      background: none;
-      font-size: 16px;
-      line-height: 18px;
       width: 100%;
-      height: 44px;
+      height: 70px;
       padding-right: 40px;
       overflow: hidden;
+      position: relative;
+      top: 0;
+      left: 0;
+      padding-bottom: 24px;
+    }
 
-      &:focus {
-        outline: none;
-      }
+    &__content {
+      display: block;
+      width: 100%;
+      position: relative;
+      top: 0;
+      left: 0;
+    }
+  }
 
-      @each $name, $color in colors.$ft-colors {
-        &_#{$name} {
-          color: $color;
-        }
+  .bioarea {
+    display: block;
+    resize: none;
+    border: none;
+    background: none;
+    font-size: 16px;
+    line-height: 18px;
+    width: 100%;
+    height: 100%;
+
+    &:focus {
+      outline: none;
+    }
+
+    @each $name, $color in colors.$ft-colors {
+      &_#{$name} {
+        color: $color;
       }
     }
   }
 
+  .symbol-counter {
+    color: black;
+    position: absolute;
+    right: 0px;
+    bottom: 24px;
+    color: #888;
+    width: 24px;
+    height: 16px;
+    line-height: 16px;
+    font-size: 14px;
+    text-align: center;
+  }
+
   .contacts {
     display: flex;
-    padding-top: 28px;
     justify-content: flex-start;
     flex-direction: column;
     align-items: stretch;
@@ -102,13 +143,20 @@
         outline: none;
       }
 
+      &:disabled {
+        background: none;
+        &_empty {
+          display: none;
+        }
+      }
+
       &::placeholder {
         color: #f9f9f940;
         font-size: 14px;
         padding: 4px;
       }
 
-      &_not-empty {
+      &_non-empty {
         background: none !important;
       }
 
