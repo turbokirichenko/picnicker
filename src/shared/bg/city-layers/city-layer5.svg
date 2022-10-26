@@ -5,6 +5,7 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="720"
@@ -19,6 +20,18 @@
    inkscape:export-ydpi="96">
   <defs
      id="defs2">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient861">
+      <stop
+         style="stop-color:#ffd42a;stop-opacity:1;"
+         offset="0"
+         id="stop857" />
+      <stop
+         style="stop-color:#ffd42a;stop-opacity:0;"
+         offset="1"
+         id="stop859" />
+    </linearGradient>
     <inkscape:path-effect
        effect="spiro"
        id="path-effect929"
@@ -39,6 +52,16 @@
        id="path-effect838"
        is_visible="true"
        lpeversion="1" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient861"
+       id="linearGradient863"
+       x1="-0.011318207"
+       y1="102.90448"
+       x2="190.51131"
+       y2="102.90448"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.99830844,0,0,1.085675,-190.48945,-16.333702)" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -49,7 +72,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="0.7"
      inkscape:cx="366.39335"
-     inkscape:cy="363.7766"
+     inkscape:cy="266.63374"
      inkscape:document-units="mm"
      inkscape:current-layer="layer6"
      inkscape:document-rotation="0"
@@ -84,32 +107,12 @@
      inkscape:label="Layer 5"
      style="display:inline;opacity:0.42295082">
     <rect
-       style="display:inline;opacity:0.101852;fill:#ffd42a;fill-opacity:1;stroke:none;stroke-width:0.321569;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;paint-order:markers fill stroke;stop-color:#000000"
+       style="display:inline;opacity:1;fill:url(#linearGradient863);fill-opacity:1;stroke:none;stroke-width:0.334778;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;paint-order:markers fill stroke;stop-color:#000000"
        id="rect6515-2-3-9"
-       width="190.52263"
-       height="175.21367"
-       x="-0.011318207"
-       y="15.297649" />
-    <rect
-       style="display:inline;opacity:0.203704;fill:#ffd42a;fill-opacity:1;stroke:none;stroke-width:0.302072;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;paint-order:markers fill stroke;stop-color:#000000"
-       id="rect6515-2-3"
-       width="190.52263"
-       height="154.6113"
-       x="-0.011322021"
-       y="35.900036" />
-    <rect
-       style="display:inline;opacity:0.429012;fill:#ffd42a;fill-opacity:1;stroke:none;stroke-width:0.282822;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;paint-order:markers fill stroke;stop-color:#000000"
-       id="rect6515-2"
-       width="190.52263"
-       height="135.53194"
-       x="-0.011317653"
-       y="54.979393" />
-    <rect
-       style="opacity:0.740741;fill:#ffd42a;fill-opacity:1;stroke:none;stroke-width:0.255906;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;paint-order:markers fill stroke;stop-color:#000000"
-       id="rect6515"
-       width="190.52263"
-       height="110.96346"
-       x="-0.011317653"
-       y="79.547859" />
+       width="190.20036"
+       height="190.22511"
+       x="-190.50076"
+       y="0.2745747"
+       transform="matrix(-0.00186496,-0.99999826,0.99999876,-0.00157687,0,0)" />
   </g>
 </svg>

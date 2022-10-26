@@ -1,7 +1,7 @@
 <script>
-  import { classes } from "../../shared/utils/classes.js";
-  import { createBEM } from "../../shared/utils/create-bem.js";
-  import { COLORS } from "./constants";
+  import { classes } from "~/shared/utils/classes.js";
+  import { createBEM } from "~/shared/utils/create-bem.js";
+  import { COLORS } from "../constants";
   export let darkTheme;
   export let color;
 
@@ -40,7 +40,7 @@
 </div>
 
 <style lang="scss">
-  @use "colors";
+  @use "../colors";
 
   @mixin setColorTheme($name, $color) {
     &_#{$name} {
@@ -111,8 +111,8 @@
 
   @keyframes change-color {
     0% {
-      width: 100%;
-      height: 100%;
+      width: 105%;
+      height: 105%;
     }
     100% {
       width: 60%;
@@ -125,8 +125,8 @@
       height: 60%;
     }
     100% {
-      width: 100%;
-      height: 100%;
+      width: 105%;
+      height: 105%;
     }
   }
 </style>

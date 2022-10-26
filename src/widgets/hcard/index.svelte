@@ -1,44 +1,59 @@
 <script>
   import { classes } from "~/shared/utils/classes.js";
   import { createBEM } from "~/shared/utils/create-bem.js";
-  import { decodeBase64, encodeBase64 } from "~/shared/utils/base64.js";
   import helloEmojiSrc from "~/shared/assets/hello-emoji.svg";
-  import ColorsGroup from "./colors-group.svelte";
-  import Header from "./header.svelte";
-  import Editor from "./editor.svelte";
-  import Viewer from "./viewer.svelte";
+  import { decodeBase64, encodeBase64 } from "~/shared/utils/base64.js";
   import { COLORS } from "./constants";
+  import ColorsGroup from "./ui/colors-group.svelte";
+  import Header from "./ui/header.svelte";
+  import Editor from "./ui/editor.svelte";
+  import Viewer from "./ui/viewer.svelte";
+
+  const isDark = (theme) => (theme ? "light" : "dark");
+
+  const createHMC = (color, isDark, bio, contacts) => {
+    if (!color || !bio) {
+      throw new Error("bio is required place");
+    }
+    const contactMap = contacts.filter((co) => co.length).join("|");
+    //hash format +colorname[bio|...contacts] hash: prefix.datahash
+    const gateway = `${isDark ? "-" : "+"}${color}[${bio}|${contactMap}]`;
+    return encodeBase64(gateway);
+  };
+
+  const decodeHMC = (hash) => {
+    if (!hash) throw new Error("hash is empty!");
+
+    const decodeText = decodeBase64(hash);
+    const matcher = [...decodeText.matchAll(/^(\+|\-)(\w+)\[(.*?)\]/g)][0];
+
+    if (!matcher) throw new Error("not valid hash standart!");
+
+    const theme = matcher[1] === "-";
+    const colorName = matcher[2];
+    const infoArray = matcher[3].split("|");
+    return [theme, colorName, ...infoArray];
+  };
 
   export let view = true;
   export let hash = "";
+  export let createHash = false;
+  export let mode = "view";
+  export let data = { dark: false, color: "", bio: "", contacts: [] };
 
   let color = COLORS[0];
   let darkTheme = false;
 
   let contacts = ["", "", ""];
   let bio = "";
-  let isDark = (theme) => (theme ? "light" : "dark");
+  try {
+    [darkTheme, color, bio, ...contacts] = decodeHMC(hash);
+  } catch (err) {
+    console.log(err.message);
+  }
 
-  const createHMC = (color, isDark, bio, contacts) => {
-    if (!color || !bio || !contacts.length) return false;
-    const contactMap = contacts.filter((co) => co.length).join("|");
-    const gateway = `${isDark ? "-" : "+"}${color}[${bio}|${contactMap}]`;
-    return encodeBase64(gateway);
-  };
-
-  const decodeHMC = (hash) => {
-    if (!hash) return false;
-    const decodeText = decodeBase64(hash);
-    const matcher = [...decodeText.matchAll(/^(\+|\-)(\w+)\[(.*?)\]/g)][0];
-    if (!matcher) return false;
-    darkTheme = matcher[1] === "-";
-    color = matcher[2];
-    [bio, ...contacts] = matcher[3].split("|");
-    return true;
-  };
-
-  $: decodeHMC(hash);
-  $: console.log(color, createHMC(color, darkTheme, bio, contacts));
+  //create hash if
+  $: createHash && createHMC(color, isDark, bio, contacts);
 </script>
 
 <article class={classes("hcard", createBEM("hcard", "", isDark(darkTheme)))}>
@@ -72,6 +87,8 @@
     left: 0;
     background-color: #fff;
     box-shadow: 0px 0px 15px #19191930;
+    border-radius: 2px;
+    overflow: hidden;
 
     @each $name, $color in colors.$bg-colors {
       @include setBgItems($name, $color);

@@ -1,6 +1,6 @@
 <script>
-  import { classes } from "../../shared/utils/classes.js";
-  import { createBEM } from "../../shared/utils/create-bem.js";
+  import { classes } from "~/shared/utils/classes.js";
+  import { createBEM } from "~/shared/utils/create-bem.js";
   export let color;
   export let contacts;
   export let theme;
@@ -47,7 +47,7 @@
 </div>
 
 <style lang="scss">
-  @use "colors";
+  @use "../colors";
 
   .editor {
     display: block;

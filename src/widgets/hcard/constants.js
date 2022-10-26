@@ -1,5 +1,11 @@
 export const COLORS = [
-    "tomato",
+    "desert",
     "greenwood",
     "spaceline"
 ];
+
+export const DEFAULT_COLORS = [
+    "extra-yellow",
+    "chili-papper",
+    "space-rocket"
+]

@@ -20,12 +20,9 @@
 
     setTimeout(() => {
       set = 0;
-      layer = (layer + 1) % subArr.length;
-    }, 2000);
-
-    setTimeout(() => {
       onload = false;
-    }, 4000);
+      layer = (layer + 1) % subArr.length;
+    }, 1000);
   };
 </script>
 
@@ -61,9 +58,9 @@
     top: 0;
     left: 0;
     overflow: hidden;
-    background: linear-gradient(270deg, #80e5ff, #002255);
+    background: linear-gradient(270deg, #80e5ff, #024);
     background-size: 400% 400%;
-    animation-duration: 2s;
+    animation-duration: 1s;
     animation-fill-mode: forwards;
     animation-name: bg-left;
 
@@ -90,7 +87,7 @@
     position: absolute;
     left: 0;
     bottom: 0;
-    animation-duration: 4s;
+    animation-duration: 1.5s;
     animation-fill-mode: forwards;
 
     @each $name, $d in $item-translates {

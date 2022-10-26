@@ -1,6 +1,6 @@
 <script>
   import { location } from "svelte-spa-router";
-  import Hcard from "~/widgets/hcard/hcard.svelte";
+  import Hcard from "~/widgets/hcard/index.svelte";
   import Layout from "~/widgets/layout/index.svelte";
   export let view = false;
   export let layer = 0;
@@ -20,8 +20,10 @@
     width: 100%;
     height: 100vh;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    gap: 30px;
   }
 </style>

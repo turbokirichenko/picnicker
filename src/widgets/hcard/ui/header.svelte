@@ -1,6 +1,6 @@
 <script>
-  import { classes } from "../../shared/utils/classes.js";
-  import { createBEM } from "../../shared/utils/create-bem.js";
+  import { classes } from "~/shared/utils/classes.js";
+  import { createBEM } from "~/shared/utils/create-bem.js";
   export let color;
 </script>
 
@@ -16,7 +16,7 @@
 </header>
 
 <style lang="scss">
-  @use "colors";
+  @use "../colors";
 
   @mixin setBgItems($name, $color) {
     &_#{$name} {
