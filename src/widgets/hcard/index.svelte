@@ -44,8 +44,9 @@
 
   .hcard {
     display: block;
-    width: 280px;
-    height: 280px;
+    min-width: 240px;
+    min-height: 240px;
+    height: 100%;
     position: relative;
     top: 0;
     left: 0;
@@ -53,6 +54,11 @@
     box-shadow: 0px 0px 15px #123123a0;
     border-radius: 2px;
     overflow: hidden;
+
+    &::after {
+      display: block;
+      padding-bottom: 100%;
+    }
 
     @each $name, $color in colors.$bg-colors {
       @include setBgItems($name, $color);

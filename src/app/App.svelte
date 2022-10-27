@@ -2,14 +2,14 @@
   import Routing from "./routing.svelte";
 </script>
 
-<main class=".app">
+<main class="app">
   <Routing />
 </main>
 
 <style lang="scss">
   .app {
     width: 100%;
-    height: 100%;
+    height: 100vh;
     overflow-x: hidden;
     overflow-y: scroll;
     position: relative;

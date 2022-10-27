@@ -27,19 +27,27 @@
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<div class={classes("bg", "bg_" + (layer % 2))} on:click={onDBClick}>
-  <section class="layout">
-    {#each Array(5) as _, i}
+<div class="parallax-layout">
+  <div
+    class={classes(
+      createBEM("parallax-layout", "bg"),
+      createBEM("parallax-layout", "bg", String(layer % 2))
+    )}
+    on:click={onDBClick}
+  />
+  <div class="parallax-layout__layers">
+    {#each subArr[layer] as _, i}
       <img
         class={classes(
           "item",
-          createBEM("item", "", String(Number(5 - i)), set ? "reverse" : "")
+          createBEM("item", "", String(5 - i), set ? "reverse" : "")
         )}
         src={subArr[layer][4 - i]}
         alt="parallax-layer"
       />
     {/each}
-  </section>
+  </div>
+  <slot />
 </div>
 
 <style lang="scss">
@@ -51,35 +59,40 @@
     5: 140%,
   );
 
-  .bg {
-    position: fixed;
-    width: 100%;
-    height: 100vh;
-    top: 0;
-    left: 0;
-    overflow: hidden;
-    background: linear-gradient(270deg, #80e5ff, #024);
-    background-size: 400% 400%;
-    animation-duration: 1s;
-    animation-fill-mode: forwards;
-    animation-name: bg-left;
-
-    &_0 {
-      animation-name: bg-left;
-    }
-
-    &_1 {
-      animation-name: bg-right;
-    }
-  }
-
-  .layout {
+  .parallax-layout {
     position: relative;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background: none;
+    overflow: hidden;
+
+    &__bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      background: linear-gradient(270deg, #80e5ff, #024);
+      background-size: 400% 400%;
+      animation-duration: 1s;
+      animation-fill-mode: forwards;
+      animation-name: bg-left;
+
+      &_0 {
+        animation-name: bg-left;
+      }
+
+      &_1 {
+        animation-name: bg-right;
+      }
+    }
+
+    &__layers {
+      background: none;
+      pointer-events: none;
+    }
   }
 
   .item {
