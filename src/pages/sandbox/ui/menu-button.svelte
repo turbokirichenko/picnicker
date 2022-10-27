@@ -1,41 +1,57 @@
 <script>
   import QrImgSrc from "~/shared/assets/qr-click.svg";
   import EthLogoSrc from "~/shared/assets/eth-logo.svg";
+  import Bar from "~/widgets/bar/index.svelte";
+  import { classes } from "~/shared/utils/classes";
+
+  export let openQR = false;
+
+  const onClickQRButton = () => {
+    openQR = !openQR;
+  };
 </script>
 
-<div class="bar">
-  <button class="bar__qr-effect button">
-    <img class="qr-image-block" src={QrImgSrc} alt="qr" />
-  </button>
-  <div class="bar__border" />
-  <button class="bar__save-effect button">
-    <div class="save-block">
-      <span class="save-block__title">Save card from Ethereum!</span>
+<Bar>
+  <div class="menu-button">
+    <button class="menu-button__qr-effect button" on:click={onClickQRButton}>
       <img
-        class="save-block__image"
-        src={EthLogoSrc}
-        alt="blockchain network"
+        class={classes(
+          "qr-image-block",
+          `qr-image-block_${openQR ? "open" : "closed"}`
+        )}
+        src={QrImgSrc}
+        alt="qr"
       />
-    </div>
-  </button>
-</div>
+    </button>
+    <div class="menu-button__border" />
+    <button class="menu-button__save-effect button">
+      <div class="save-block">
+        <span class="save-block__title">Save card from Ethereum!</span>
+        <img
+          class="save-block__image"
+          src={EthLogoSrc}
+          alt="blockchain network"
+        />
+      </div>
+    </button>
+  </div>
+</Bar>
 
 <style lang="scss">
-  .bar {
+  .menu-button {
     width: 100%;
     height: 100%;
-    background: #f9f9f980;
     display: flex;
     align-items: center;
-    box-shadow: 0px 0px 10px #12312340;
-    border-radius: 3px;
 
     &__qr-effect {
       flex: 1 1 0px;
+      padding: 13px;
     }
 
     &__save-effect {
       flex: 4 1 0px;
+      padding: 10px;
     }
 
     &__border {
@@ -49,6 +65,10 @@
   .qr-image-block {
     display: block;
     width: 100%;
+    transition: filter 0.3s;
+    &_open {
+      filter: invert(1);
+    }
   }
 
   .save-block {
