@@ -39,6 +39,9 @@
   @mixin setBgItems($name, $color) {
     &_#{$name} {
       background-color: $color;
+      &::before {
+        background: linear-gradient(145deg, #00000000, $color, #00000000);
+      }
     }
   }
 
@@ -51,13 +54,24 @@
     top: 0;
     left: 0;
     background-color: #fff;
-    box-shadow: 0px 0px 15px #123123a0;
     border-radius: 2px;
     overflow: hidden;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23888888' fill-opacity='0.2' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
+    background-size: 8px 8px;
 
     &::after {
       display: block;
       padding-bottom: 100%;
+    }
+
+    &::before {
+      content: "";
+      display: block;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
     }
 
     @each $name, $color in colors.$bg-colors {

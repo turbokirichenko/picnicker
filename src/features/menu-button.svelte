@@ -76,13 +76,14 @@
     max-height: 100%;
     padding: 0;
     margin: 0;
-    padding: 5px 12px;
+    padding: 3px 12px;
     border-radius: 5px;
     background-color: #f9f9f9;
     display: flex;
     position: relative;
     &__title {
       padding: 0;
+      color: #222;
     }
     &__image {
       padding: 0;

@@ -3,7 +3,7 @@
   import { cardModule } from "~/entities/card";
   import Page from "~/widgets/page/index.svelte";
   import Hcard from "~/widgets/hcard/index.svelte";
-  import Layout from "~/widgets/layout/index.svelte";
+  import Layout from "~/widgets/animate-layout/index.svelte";
 
   let locationStr = $location.split("/")[2];
   const [hash, layerNum] = locationStr?.split(".");

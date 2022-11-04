@@ -131,12 +131,13 @@
     &__item {
       width: 100%;
       height: 24px;
+      line-height: 24px;
       border-radius: 5px;
       background: tomato;
       border: none;
-      font-size: 20px;
+      font-size: 16px;
       text-overflow: ellipsis;
-      overflow: hidden;
+      overflow: visible;
       padding-right: 20px;
 
       &:focus {

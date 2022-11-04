@@ -3,121 +3,77 @@
   import { cardModule } from "~/entities/card";
   import Page from "~/widgets/page/index.svelte";
   import Hcard from "~/widgets/hcard/index.svelte";
-  import Layout from "~/widgets/layout/index.svelte";
-  import MenuButton from "./ui/menu-button.svelte";
-  import PageNotice from "./ui/page-notice.svelte";
+  import AnimateLayout from "~/widgets/animate-layout/index.svelte";
   import Bar from "~/widgets/bar/index.svelte";
-  import QRcode from "~/shared/utils/qr-code-svg";
+  import QRcode from "~/widgets/qr-code.svelte";
+  import MenuButton from "~/features/menu-button.svelte";
 
-  console.log($location);
   let locationStr = $location.split("/")[2];
   const [hash, layerNum] = locationStr ? locationStr.split(".") : ["", 0];
   const [v, dataHook] = cardModule.decodeDataSnap(hash);
 
   let layer = Number(layerNum) || 0;
   let openQR = false;
-  let QR_URL = "";
   let screenshotMode = false;
+  let link = "";
+  const domain = "https://hcard-club.github.io/#/viewbox/";
   const view = false;
 
-  const activateScreenShotMode = () => {
-    if (screenshotMode) return;
-    screenshotMode = true;
-    setTimeout(() => {
-      screenshotMode = false;
-    }, 5000);
-  };
-
-  const createRefer = (data, layer) => {
-    const accountPrefix = "https://hcard-club.github.io/#/viewbox";
-    const accountHash = `${cardModule.createDataSnap(data)}.${layer}`;
-    return `${accountPrefix}/${accountHash}`;
-  };
-
-  const createQRcode = (refer) => {
-    try {
-      const qr = new QRcode({
-        content: refer,
-        join: true,
-        container: "svg-viewbox",
-        padding: 0,
-        width: 228,
-        height: 228,
-        color: "#090909",
-        background: "#ffffff00",
-      });
-      const qr_img = qr.svg();
-      return qr_img;
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const createSvgUrl = () => {
-    const svgPrefix = "data:image/svg+xml;base64,";
-    const refer = createRefer(data, layer);
-    const svgStr = createQRcode(refer);
-    const base64data = window.btoa(svgStr);
-    return `${svgPrefix}${base64data}`;
-  };
-
   $: data = { ...dataHook, ...data };
-  $: if (openQR) QR_URL = createSvgUrl();
+  $: if (openQR) link = `${domain}${cardModule.createDataSnap(data)}.${layer}`;
 </script>
 
 <Page>
-  <Layout {view} bind:layer>
+  <AnimateLayout {view} bind:layer>
     {#if screenshotMode}
-      <div class="timeline" />
+      <div class="screenshot-layout" />
+      <div class="screenshot-line" />
     {:else}
-      <header class="header-wrapper">
+      <div class="menu-wrapper">
         <MenuButton bind:openQR />
-      </header>
-      <footer class="footer-wrapper">
-        {#if openQR}
-          <PageNotice
-            noticeText={"Tap on the QR picture to activate the Screenshot mode!"}
-          />
-        {/if}
-      </footer>
+      </div>
+      <footer class="footer-wrapper" />
     {/if}
     <div class="hcard-wrapper">
-      {#if openQR}
-        <Bar>
-          <!-- svelte-ignore a11y-click-events-have-key-events -->
-          <div class="qr-show" on:click={activateScreenShotMode}>
-            <img class="qr-show__image" src={QR_URL} alt="qr" />
-          </div>
-        </Bar>
-      {:else}
-        <Hcard {view} bind:data />
-      {/if}
+      <Bar>
+        {#if openQR}
+          <QRcode {link} bind:clicked={screenshotMode} />
+        {:else}
+          <Hcard {view} bind:data />
+        {/if}
+      </Bar>
     </div>
-  </Layout>
+  </AnimateLayout>
 </Page>
 
 <style lang="scss">
-  .timeline {
+  .screenshot-layout {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 8px;
-    padding: 2px;
-
+    height: 100%;
+  }
+  .screenshot-line {
+    position: absolute;
+    top: 15px;
+    left: 0;
+    height: 16px;
+    width: 100%;
+    padding: 5px 20px;
     &::after {
       content: "";
-      height: 100%;
-      border-radius: 4px;
-      padding: 2px;
-      background: #d93d04;
       display: block;
-      animation-name: line;
+      width: 100%;
+      height: 100%;
+      animation-name: time-line;
       animation-duration: 5s;
       animation-timing-function: linear;
+      background-color: #d93d04;
+      border-radius: 5px;
     }
   }
-  .header-wrapper {
+  .menu-wrapper {
     position: absolute;
     top: 10%;
     left: calc(50% - 145px);
@@ -131,34 +87,20 @@
     width: 290px;
     height: 290px;
   }
-  .qr-show {
-    width: 100%;
-    height: 100%;
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
-    &__image {
-      display: block;
-      width: 240px;
-      padding: 15px;
-      border-radius: 15px;
-      background-color: #f4f4f4;
-    }
-  }
   .footer-wrapper {
     position: absolute;
     bottom: 10%;
     left: calc(50% - 145px);
     width: 290px;
     min-height: 72px;
+    pointer-events: none;
   }
-
-  @keyframes line {
+  @keyframes time-line {
     0% {
       width: 100%;
     }
     100% {
-      width: 0;
+      width: 0%;
     }
   }
 </style>

@@ -16,6 +16,7 @@
     animation-name: notice-raise;
     animation-duration: 3s;
     opacity: 0;
+    pointer-events: none;
   }
   .notice {
     display: block;
