@@ -1,30 +1,24 @@
 <script>
-  import { location } from "svelte-spa-router";
   import { cardModule } from "~/entities/card";
   import Page from "~/widgets/page/index.svelte";
   import Hcard from "~/widgets/hcard/index.svelte";
   import AnimateLayout from "~/widgets/animate-layout/index.svelte";
-  import Bar from "~/widgets/bar/index.svelte";
   import QRcode from "~/widgets/qr-code.svelte";
-  import MenuButton from "~/features/menu-button.svelte";
+  import MenuButton from "~/widgets/menu-button.svelte";
 
-  let locationStr = $location.split("/")[2];
-  const [hash, layerNum] = locationStr ? locationStr.split(".") : ["", 0];
-  const [v, dataHook] = cardModule.decodeDataSnap(hash);
-
-  let layer = Number(layerNum) || 0;
+  let layer = 0;
   let openQR = false;
   let screenshotMode = false;
-  let link = "";
-  const domain = "https://hcard-club.github.io/#/viewbox/";
-  const view = false;
-
+  const viewMode = false;
+  const dataHook = {};
   $: data = { ...dataHook, ...data };
-  $: if (openQR) link = `${domain}${cardModule.createDataSnap(data)}.${layer}`;
+  // create link for QR
+  $: hash = openQR && cardModule.createDataSnap(data, String(layer));
+  $: console.log(hash);
 </script>
 
 <Page>
-  <AnimateLayout {view} bind:layer>
+  <AnimateLayout view={viewMode} bind:layer>
     {#if screenshotMode}
       <div class="screenshot-layout" />
       <div class="screenshot-line" />
@@ -35,13 +29,11 @@
       <footer class="footer-wrapper" />
     {/if}
     <div class="hcard-wrapper">
-      <Bar>
-        {#if openQR}
-          <QRcode {link} bind:clicked={screenshotMode} />
-        {:else}
-          <Hcard {view} bind:data />
-        {/if}
-      </Bar>
+      {#if openQR}
+        <QRcode {hash} bind:clicked={screenshotMode} />
+      {:else}
+        <Hcard view={viewMode} bind:data />
+      {/if}
     </div>
   </AnimateLayout>
 </Page>

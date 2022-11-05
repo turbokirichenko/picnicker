@@ -1,5 +1,5 @@
 <script>
-  import Bar from "~/widgets/bar/index.svelte";
+  import Bar from "~/features/menu-element/index.svelte";
   export let noticeText;
 </script>
 

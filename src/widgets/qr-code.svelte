@@ -1,7 +1,9 @@
 <script>
   import QRcodeSVG from "~/shared/utils/qr-code-svg";
+  import { FULL_SHOW_PATH } from "~/shared/constants";
+  import Bar from "~/features/menu-element/index.svelte";
 
-  export let link = "";
+  export let hash = "";
   export let clicked = false;
 
   const createQRcode = (refer) => {
@@ -30,6 +32,11 @@
     return `${svgPrefix}${base64data}`;
   };
 
+  const createLink = (path, hash) => {
+    if (!path || !hash) return "/";
+    return `${path}${hash}`;
+  };
+
   const onClicked = () => {
     if (clicked) return;
     clicked = true;
@@ -38,12 +45,16 @@
       clicked = false;
     }, timerMs);
   };
+
+  $: link = createLink(FULL_SHOW_PATH, hash);
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<div class="qr-show" on:click={onClicked}>
-  <img class="qr-show__image" alt="qr code" src={createSvgUrl(link)} />
-</div>
+<Bar>
+  <div class="qr-show" on:click={onClicked}>
+    <img class="qr-show__image" alt="qr code" src={createSvgUrl(link)} />
+  </div>
+</Bar>
 
 <style lang="scss">
   .qr-show {

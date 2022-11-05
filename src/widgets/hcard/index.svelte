@@ -4,6 +4,7 @@
   import helloEmojiSrc from "~/shared/assets/hello-emoji.svg";
   import { COLORS } from "./constants";
   import ColorsGroup from "./ui/colors-group.svelte";
+  import ContactGroup from "./ui/contact-group.svelte";
   import Header from "./ui/header.svelte";
   import Editor from "./ui/editor.svelte";
 
@@ -29,6 +30,10 @@
   {#if !view}
     <footer class="footer-bar">
       <ColorsGroup bind:color={data.color} bind:darkTheme={data.dark} />
+    </footer>
+  {:else}
+    <footer class="footer-bar">
+      <ContactGroup contacts={data.contacts} />
     </footer>
   {/if}
 </article>

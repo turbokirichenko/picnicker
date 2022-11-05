@@ -1,7 +1,7 @@
 <script>
   import QrImgSrc from "~/shared/assets/qr-click.svg";
   import EthLogoSrc from "~/shared/assets/eth-logo.svg";
-  import Bar from "~/widgets/bar/index.svelte";
+  import Bar from "~/features/menu-element/index.svelte";
   import { classes } from "~/shared/utils/classes";
 
   export let openQR = false;
