@@ -17,6 +17,13 @@
   const breakChecked = (i) => () => {
     checked = -1;
   };
+  const inputs = [];
+  const selectInput = (i) => (e) => {
+    if (!allowEdit) {
+      inputs[i].focus();
+      inputs[i].select();
+    }
+  };
 </script>
 
 <div class="editor">
@@ -40,9 +47,11 @@
         <input
           type="text"
           placeholder="phone / email / link ..."
-          disabled={!allowEdit}
+          readonly={!allowEdit}
           maxlength={maxSizeOfInput}
           bind:value={contacts[i]}
+          bind:this={inputs[i]}
+          on:click={selectInput(i)}
           on:focus={setChecked(i)}
           on:blur={breakChecked()}
           class={classes(
@@ -144,7 +153,7 @@
         outline: none;
       }
 
-      &:disabled {
+      &:read-only {
         background: none;
         opacity: 1;
         &::placeholder {

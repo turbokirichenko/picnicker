@@ -14,33 +14,39 @@
 
   const contactImage = (text) => {
     if (EMAIL_PATTERN.test(text)) {
-      return EmailImg;
+      const mailto = `mailto:${text}`;
+      return { src: EmailImg, href: mailto };
     }
     if (PHONE_PATTERN.test(text)) {
-      return PhoneImg;
+      const tel = `tel:${text}`;
+      return { src: PhoneImg, href: tel };
     }
     if (LINK_PATTERN.test(text)) {
       const url = new URL(text);
-      return `http://www.google.com/s2/favicons?domain=${url.hostname}`;
+      const urlSrc = `http://www.google.com/s2/favicons?domain=${url.hostname}`;
+      return { src: urlSrc, href: text };
     }
 
-    return TextImg;
+    return { src: TextImg, href: "#" };
   };
 
   $: contactImages = contacts.map((contact) => contactImage(contact));
 </script>
 
 <div class="contacts-group">
-  {#each contactImages as image}
+  {#each contactImages as { src, href }}
     <div class="contact-image">
-      <img class="contact-image__content" src={image} alt="contact" />
+      <!-- svelte-ignore security-anchor-rel-noreferrer -->
+      <a {href} target="_blank">
+        <img class="contact-image__content" {src} alt="contact" />
+      </a>
     </div>
   {/each}
 </div>
 
 <style lang="scss">
   .contacts-group {
-    min-width: 80px;
+    min-width: 20px;
     height: 100%;
     display: flex;
     justify-content: flex-start;
@@ -57,6 +63,7 @@
       display: block;
       width: 100%;
       height: 100%;
+      border-radius: 4px;
     }
   }
 </style>
