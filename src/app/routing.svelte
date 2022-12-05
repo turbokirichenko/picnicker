@@ -7,7 +7,8 @@
   import NotFound from "~/pages/not-found.svelte";
 
   const routingMap = {
-    "/": Greeting,
+    "/": Sandbox,
+    "/dev": Greeting,
     "/gateway": Gateway,
     "/sandbox": Sandbox,
     "/:hashed": Showbox,
