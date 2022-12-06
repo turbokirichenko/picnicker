@@ -121,6 +121,7 @@
       max-width: 900px;
       overflow: hidden;
       margin: auto;
+      height: 100%;
     }
   }
 
