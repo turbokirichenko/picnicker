@@ -1,7 +1,11 @@
 <script>
+  import ArrowRightSvg from "~/shared/icons/arrow-right-impact.svg";
+  import LogoWhiteSvg from "~/shared/assets/logo-white.svg";
+  import LogoGrablee from "~/shared/icons/logograblee.svg";
+
+  import SuperSearch from "~/widgets/super-search/index.svelte";
   import BlurLayout from "~/features/blur-layout.svelte";
   import WallLayout from "~/features/wall-layout.svelte";
-  import ArrowRightSvg from "~/shared/icons/arrow-right.svg";
 </script>
 
 <main class="greeting-page">
@@ -9,14 +13,12 @@
     <BlurLayout>
       <div class="description-block">
         <div class="description-block__header">
-          <div>eadadwd</div>
+          <SuperSearch />
         </div>
         <div class="description-block__content">
           <div class="prologue-block">
             <div class="prologue-block__heading">
-              <div class="big-title-block">
-                <h1 class="big-title-block__text">GRABLEE.ME</h1>
-              </div>
+              <img class="logo" src={LogoGrablee} alt="logo white" />
             </div>
             <div class="prologue-block__item">
               <div class="spantext-block">
@@ -67,7 +69,6 @@
       width: 100%;
       min-height: 101vh;
       height: 101vh;
-      //z-index: -1;
       overflow: hidden;
     }
 
@@ -114,30 +115,30 @@
     color: #f9f9f9;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     flex-direction: column;
     gap: 40px;
     &__heading {
       width: 100%;
-      min-height: 60px;
+      height: 70px;
     }
     &__item {
-      width: 100%;
+      width: 80%;
       min-height: 120px;
     }
     &__toggle {
       width: 100%;
-      height: 80px;
+      height: 70px;
       padding: 0 10px;
     }
   }
 
-  .big-title-block {
-    &__text {
-      margin: 0;
-      padding: 0;
-      font-size: 3.6em;
-      text-align: center;
-    }
+  .big-title {
+    margin: 0;
+    padding: 0;
+    font-size: 60px;
+    text-align: center;
+    white-space: nowrap;
   }
 
   .medium-title {
@@ -152,8 +153,8 @@
     text-align: center;
     &__text {
       font-family: Comfortaa;
-      font-size: 24px;
-      line-height: 30px;
+      font-size: 21px;
+      line-height: 28px;
       text-align: center;
     }
   }
@@ -162,8 +163,12 @@
     width: 100%;
     height: 100%;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
+    position: relative;
+    gap: 10px;
+    top: 0;
+    left: 0;
     padding: 15px;
     border: 2px solid #f9f9f9;
     border-radius: 40px;
@@ -172,15 +177,19 @@
       height: 48px;
     }
     &__arrow {
-      width: 48px;
-      height: 48px;
+      position: absolute;
+      right: calc(10% - 10px);
+      width: 42px;
+      height: 100%;
       transition: transform 0.5s;
       transform: translate(0, 0);
+      display: flex;
+      justify-content: center;
     }
 
     &:hover {
       .arrow-button__arrow {
-        transform: translate(15px, 0);
+        transform: translate(10px, 0);
       }
     }
   }
@@ -196,5 +205,11 @@
     height: 100%;
     background-color: #f9f9f9;
     border-radius: 30px;
+  }
+
+  .logo {
+    width: 100%;
+    display: block;
+    margin: auto;
   }
 </style>
