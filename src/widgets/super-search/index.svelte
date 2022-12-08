@@ -3,133 +3,221 @@
   import SearchSvg from "~/shared/icons/search.svg";
   import FilterSvg from "~/shared/icons/filter-large.svg";
   import PlusLargeSvg from "~/shared/icons/plus-large.svg";
+  import DropMenu from "~/features/drop-menu.svelte";
+  import FilterMenu from "./ui/filter-menu.svelte";
+  import AddMenu from "./ui/add-menu.svelte";
+  import BarButton from "./ui/bar-button.svelte";
+  import BarInput from "./ui/bar-input.svelte";
+  import ImportItems from "./ui/import-items.svelte";
+  import PatternItems from "./ui/pattern-items.svelte";
 
-  const animationDurationMs = 500;
+  import { ANIMATION_DURATION_MS } from "./constants";
 
-  let elapsed = true;
-  let leftWingState = "plus"; // plus | close
-  let rightWingState = "search"; // search | filter;
-  let filterActive = false;
-  let chooseActive = false;
-  let searchingString = "";
+  const state = {
+    elapsed: true,
+    searched: "",
+    left: {
+      action: "plus",
+      active: false,
+      effect: "",
+    },
+    right: {
+      action: "search",
+      active: false,
+      effect: "",
+    },
+  };
 
-  let switchDisplayMode = (e) => {
-    elapsed = false;
+  export let elapsed = true;
+  $: elapsed = state.elapsed;
+
+  const disabledActive = () => {
+    state["left"].active = false;
+    state["right"].active = false;
+  };
+
+  const clearInput = () => {
+    disabledActive();
+    state["searched"] = "";
+  };
+
+  const disableElapsed = () => {
+    disabledActive();
+    state["elapsed"] = false;
+  };
+
+  const enableElapsed = () => {
+    disabledActive();
+    state["elapsed"] = true;
+  };
+
+  const switchLeftAction = (action) => {
+    disabledActive();
+    state["left"].action = action;
+  };
+
+  const switchRightAction = (action) => {
+    disabledActive();
+    state["right"].active = false;
+    state["right"].effect = "exit";
     setTimeout(() => {
-      rightWingState = "filter";
-    }, animationDurationMs);
-  };
-  let switchElapsedMode = (e) => {
-    elapsed = true;
-    filterActive = false;
-    chooseActive = false;
-    searchingString = "";
-    leftWingState = "plus";
-    setTimeout(() => {
-      rightWingState = "search";
-    }, animationDurationMs);
-  };
-  let clickFilterButton = (e) => {
-    filterActive = !filterActive;
-    chooseActive = false;
-  };
-  let clickPlusButton = (e) => {
-    chooseActive = !chooseActive;
-    filterActive = false;
-  };
-  let clickCloseButton = (e) => {
-    filterActive = false;
-    chooseActive = false;
-    searchingString = "";
+      state["right"].action = action;
+      state["right"].effect = "";
+    }, ANIMATION_DURATION_MS);
   };
 
-  window.onclick = (e) => {
-    // if input from focus then not elapse
-    if (searchingString) return;
-    switchElapsedMode(e);
+  const switchActive = (pos) => {
+    const active = state[pos].active;
+    disabledActive();
+    state[pos].active = !active;
   };
-  $: leftWingState = searchingString ? "close" : "plus";
-  $: searchingString && (chooseActive = filterActive = false);
+
+  const switchLeftActive = () => {
+    const pos = "left";
+    switchActive(pos);
+  };
+
+  const switchRightActive = () => {
+    const pos = "right";
+    switchActive(pos);
+  };
+
+  //clicked actions
+  const clickSearchButton = (e) => {
+    disableElapsed();
+    switchRightAction("filter");
+  };
+  const clickFilterButton = (e) => {
+    switchRightActive();
+  };
+  const clickSelectButton = (e) => {
+    return;
+  };
+  const clickPlusButton = (e) => {
+    switchLeftActive();
+  };
+  const clickCloseButton = (e) => {
+    clearInput();
+  };
+
+  const clickAction = {
+    search: {
+      icon: SearchSvg,
+      fn: clickSearchButton,
+    },
+    filter: {
+      icon: FilterSvg,
+      fn: clickFilterButton,
+    },
+    select: {
+      icon: SearchSvg,
+      fn: clickSelectButton,
+    },
+    plus: {
+      icon: PlusLargeSvg,
+      fn: clickPlusButton,
+    },
+    close: {
+      icon: PlusLargeSvg,
+      fn: clickCloseButton,
+    },
+  };
+
+  const scrollWindow = (e) => {
+    disabledActive();
+  };
+  const clickWindow = (e) => {
+    // exit only from 'filter' mode
+    if (state.searched || state.elapsed) return;
+    switchLeftAction("plus");
+    switchRightAction("search");
+    enableElapsed();
+  };
+  window.onclick = clickWindow;
+  window.onscroll = scrollWindow;
+
+  const checkoutInputMode = (str, actionRight, actionLeft) => {
+    if (actionRight === "search") return;
+    console.log("input");
+    const checkoutInputRight = (str, actionRight) => {
+      if (str && actionRight === "filter") {
+        switchRightAction("select");
+      }
+      if (!str && actionRight === "select") {
+        switchRightAction("filter");
+      }
+    };
+    const checkoutInputLeft = (str, actionLeft) => {
+      if (str && actionLeft === "plus") switchLeftAction("close");
+      if (!str && actionLeft === "close") switchLeftAction("plus");
+    };
+    checkoutInputRight(str, actionRight);
+    checkoutInputLeft(str, actionLeft);
+  };
+  $: checkoutInputMode(
+    state.searched,
+    state["right"].action,
+    state["left"].action
+  );
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div
   class="super-search"
   on:click={(e) => {
-    e && e.stopPropagation();
+    e.stopPropagation();
   }}
 >
-  <div
-    class={classes(
-      "super-search__block",
-      `super-search__block-${elapsed ? "elapsed" : "full"}`
-    )}
-  >
-    <div class="search-bar">
-      <div class="search-bar__left-wing">
-        {#if leftWingState === "close"}
-          <button on:click={clickCloseButton} class="bar-button">
-            <div class="bar-button__content">
-              <img
-                class={classes("animated-img", "animated-img_rotate-right")}
-                src={PlusLargeSvg}
-                alt="searching"
-              />
-            </div>
-          </button>
-        {/if}
-        {#if leftWingState === "plus"}
-          <button on:click={clickPlusButton} class="bar-button">
-            <div class="bar-button__content">
-              <img
-                class={classes(
-                  "animated-img",
-                  "animated-img_rotate-left",
-                  chooseActive && "animated-img_active"
-                )}
-                src={PlusLargeSvg}
-                alt="searching"
-              />
-            </div>
-          </button>
-        {/if}
-      </div>
-      <div class="search-bar__middle">
-        <input class="bar-input" bind:value={searchingString} />
-      </div>
-      <div class="search-bar__right-wing">
-        {#if rightWingState === "search"}
-          <button on:click={switchDisplayMode} class="bar-button">
-            <div class="bar-button__content">
-              <img
-                class={classes(
-                  "animated-img",
-                  elapsed ? "animated-img_entry" : "animated-img_exit"
-                )}
-                src={SearchSvg}
-                alt="searching"
-              />
-            </div>
-          </button>
-        {/if}
-        {#if rightWingState === "filter"}
-          <button on:click={clickFilterButton} class="bar-button">
-            <div class="bar-button__content">
-              <img
-                class={classes(
-                  "animated-img",
-                  elapsed ? "animated-img_exit" : "animated-img_entry",
-                  filterActive && "animated-img_active"
-                )}
-                src={FilterSvg}
-                alt="searching"
-              />
-            </div>
-          </button>
-        {/if}
+  <DropMenu>
+    <div slot="menu" class="menu-wrapper">
+      <AddMenu closed={!state["left"].active && !state["right"].active}>
+        <ImportItems />
+      </AddMenu>
+    </div>
+    <div
+      slot="children"
+      class={classes(
+        "super-search__block",
+        `super-search__block-${state.elapsed ? "elapsed" : "full"}`
+      )}
+    >
+      <div class="search-bar">
+        <div class="search-bar__left-wing">
+          <BarButton clicked={clickAction[state["left"].action].fn}>
+            <img
+              class={classes(
+                "animated-img",
+                state["left"].action === "close"
+                  ? "animated-img_rotate-right"
+                  : "animated-img_rotate-left",
+                state["left"].active && "animated-img_active"
+              )}
+              src={clickAction[state["left"].action].icon}
+              alt="searching"
+            />
+          </BarButton>
+        </div>
+        <div class="search-bar__middle">
+          <BarInput bind:searched={state.searched} />
+        </div>
+        <div class="search-bar__right-wing">
+          <BarButton clicked={clickAction[state["right"].action].fn}>
+            <img
+              class={classes(
+                "animated-img",
+                state["right"].effect === "exit"
+                  ? "animated-img_exit"
+                  : "animated-img_entry",
+                state["right"].active && "animated-img_active"
+              )}
+              src={clickAction[state["right"].action].icon}
+              alt="searching"
+            />
+          </BarButton>
+        </div>
       </div>
     </div>
-  </div>
+  </DropMenu>
 </div>
 
 <style lang="scss">
@@ -182,47 +270,10 @@
     }
   }
 
-  .bar-button {
-    background: none;
-    border: none;
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    filter: invert(1);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    &:focus {
-      outline: none;
-    }
-
-    &__content {
-      display: block;
-      width: 40%;
-      height: 40%;
-    }
-  }
-
-  .bar-input {
-    background: none;
-    border: none;
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    font-size: 21px;
-    color: #f9f9f9;
-
-    &:focus {
-      outline: none;
-    }
-  }
-
   .animated-img {
     display: block;
     width: 100%;
     transition: filter 0.3s;
-    filter: invert(0);
     animation-duration: 0.5s;
     animation-fill-mode: forwards;
 
@@ -237,7 +288,8 @@
     }
 
     &_active {
-      filter: invert(1);
+      filter: invert(48%) sepia(13%) saturate(3207%) hue-rotate(130deg)
+        brightness(95%) contrast(80%);
     }
 
     &_rotate-right {
@@ -284,8 +336,8 @@
       transform: scale(1) rotate(0deg);
     }
     100% {
-      opacity: 0;
-      transform: scale(0.2) rotate(360deg);
+      opacity: 0.1;
+      transform: scale(0.5) rotate(360deg);
     }
   }
 </style>

@@ -4,6 +4,7 @@
   import LogoGrablee from "~/shared/icons/logograblee.svg";
 
   import SuperSearch from "~/widgets/super-search/index.svelte";
+  import ThemeButtom from "~/widgets/theme-button/index.svelte";
   import BlurLayout from "~/features/blur-layout.svelte";
   import WallLayout from "~/features/wall-layout.svelte";
 
@@ -11,6 +12,7 @@
   let changeTheme = (e) => {
     themeDark = !themeDark;
   };
+  let elapsedSearch = false;
 
   let allowClick = false;
   let onDbClick = (fn) => (e) => {
@@ -36,7 +38,12 @@
     <BlurLayout>
       <div class="description-block">
         <div class="description-block__header">
-          <SuperSearch />
+          <div class="absolute-block">
+            <ThemeButtom bind:dark={themeDark} hide={!elapsedSearch} />
+          </div>
+          <div class="absolute-block">
+            <SuperSearch bind:elapsed={elapsedSearch} />
+          </div>
         </div>
         <div class="description-block__content">
           <div class="prologue-block">
@@ -65,7 +72,7 @@
           </div>
         </div>
         <div class="description-block__footer">
-          <h3>about project</h3>
+          <h3 class="footer-description">about project</h3>
         </div>
       </div>
     </BlurLayout>
@@ -89,9 +96,11 @@
       position: fixed;
       top: 0;
       left: 0;
+      bottom: 0;
+      right: 0;
       width: 100%;
-      min-height: 101vh;
-      height: 101vh;
+      //min-height: 100vh;
+      //height: 100vh;
       overflow: hidden;
 
       transition: background-color 0.5s;
@@ -114,6 +123,24 @@
     }
   }
 
+  .footer-description {
+    font-size: 21px;
+    font-family: Comfortaa;
+    text-align: center;
+    margin: 0;
+    color: #98329f;
+    line-height: 60px;
+  }
+
+  .absolute-block {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 10px;
+    width: 100%;
+    height: 100%;
+  }
+
   .description-block {
     display: flex;
     flex-direction: column;
@@ -128,7 +155,9 @@
       width: 100%;
       max-width: 720px;
       height: 80px;
+      min-height: 80px;
       padding: 10px;
+      position: relative;
     }
     &__content {
       width: 100%;
@@ -137,7 +166,10 @@
       padding: 20px;
     }
     &__footer {
+      max-width: 720px;
+      width: 100%;
       height: 80px;
+      padding: 10px;
     }
   }
 
