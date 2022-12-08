@@ -6,10 +6,33 @@
   import SuperSearch from "~/widgets/super-search/index.svelte";
   import BlurLayout from "~/features/blur-layout.svelte";
   import WallLayout from "~/features/wall-layout.svelte";
+
+  let themeDark = false;
+  let changeTheme = (e) => {
+    themeDark = !themeDark;
+  };
+
+  let allowClick = false;
+  let onDbClick = (fn) => (e) => {
+    if (allowClick) {
+      fn(e);
+      return;
+    }
+    allowClick = true;
+    setTimeout(() => {
+      allowClick = false;
+    }, 200);
+  };
 </script>
 
 <main class="greeting-page">
-  <div class="greeting-page__fixed-item">
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <div
+    class={`greeting-page__fixed-item greeting-page__fixed-item${
+      themeDark && "-dark"
+    }`}
+    on:click={onDbClick(changeTheme)}
+  >
     <BlurLayout>
       <div class="description-block">
         <div class="description-block__header">
@@ -59,7 +82,7 @@
 <style lang="scss">
   .greeting-page {
     width: 100%;
-    min-height: 100vh;
+    height: 100vh;
     position: relative;
 
     &__fixed-item {
@@ -70,6 +93,13 @@
       min-height: 101vh;
       height: 101vh;
       overflow: hidden;
+
+      transition: background-color 0.5s;
+      background-color: rgb(250, 250, 250);
+
+      &-dark {
+        background-color: rgb(0, 0, 0);
+      }
     }
 
     &__floated-item {
@@ -96,7 +126,9 @@
     left: 0;
     &__header {
       width: 100%;
+      max-width: 720px;
       height: 80px;
+      padding: 10px;
     }
     &__content {
       width: 100%;
@@ -131,14 +163,6 @@
       height: 70px;
       padding: 0 10px;
     }
-  }
-
-  .big-title {
-    margin: 0;
-    padding: 0;
-    font-size: 60px;
-    text-align: center;
-    white-space: nowrap;
   }
 
   .medium-title {
@@ -211,5 +235,23 @@
     width: 100%;
     display: block;
     margin: auto;
+  }
+
+  @keyframes auto-change-theme {
+    0% {
+      background-color: rgb(255, 255, 255);
+    }
+    49% {
+      background-color: rgb(255, 255, 255);
+    }
+    50% {
+      background-color: rgb(0, 0, 0);
+    }
+    99% {
+      background-color: rgb(0, 0, 0);
+    }
+    100% {
+      background-color: rgb(255, 255, 255);
+    }
   }
 </style>
