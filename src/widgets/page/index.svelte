@@ -14,7 +14,7 @@
     width: 100%;
     min-width: 260px;
     height: 100%;
-    min-height: 360px;
+    min-height: 100vh;
     overflow: hidden;
     gap: 30px;
   }
