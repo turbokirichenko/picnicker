@@ -1,4 +1,6 @@
 <script>
+  import { link } from "svelte-spa-router";
+
   import ArrowRightSvg from "~/shared/icons/arrow-right-impact.svg";
   import LogoWhiteSvg from "~/shared/assets/logo-white.svg";
   import LogoGrablee from "~/shared/icons/logograblee.svg";
@@ -60,14 +62,16 @@
               </div>
             </div>
             <div class="prologue-block__toggle">
-              <div class="arrow-button">
-                <div class="arrow-button__content">
-                  <h1 class="medium-title">START</h1>
-                </div>
-                <!--<div class="arrow-button__arrow">
+              <a href="/sandbox" use:link>
+                <div class="arrow-button">
+                  <div class="arrow-button__content">
+                    <h1 class="medium-title">START</h1>
+                  </div>
+                  <!--<div class="arrow-button__arrow">
                   <img class="arrow-img" src={ArrowRightSvg} alt="next" />
                 </div>-->
-              </div>
+                </div>
+              </a>
             </div>
           </div>
         </div>
@@ -198,6 +202,7 @@
     font-size: 32px;
     text-align: center;
     line-height: 48px;
+    color: white;
     font-family: Comfortaa;
   }
 
