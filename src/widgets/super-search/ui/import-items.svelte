@@ -23,7 +23,8 @@
 
 <div class="items">
   {#each MENU_ITEMS as { icon, text }}
-    <div class="items__item">
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <div class="items__item" on:click={(e) => {}}>
       <PatternBlock {icon} {text} />
     </div>
   {/each}
@@ -38,12 +39,24 @@
     flex-wrap: wrap;
     gap: 10px;
     padding: 10px;
+    animation-name: entry;
+    animation-duration: 0.1s;
+    animation-fill-mode: forwards;
 
     &__item {
       flex: 1 1 0px;
       max-width: 100%;
       min-width: 280px;
       height: 80px;
+    }
+  }
+
+  @keyframes entry {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
     }
   }
 </style>

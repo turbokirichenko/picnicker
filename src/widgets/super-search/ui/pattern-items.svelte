@@ -1,10 +1,11 @@
 <script>
   import PatternBlock from "~/features/pattern-block.svelte";
+  export let inputMethod = "";
 
   const MENU_ITEMS = [
     {
       theme: "instagram",
-      text: "insta",
+      text: "inst",
       icon: "",
     },
     {
@@ -14,7 +15,7 @@
     },
     {
       theme: "telegram",
-      text: "tm",
+      text: "tg",
       icon: "",
     },
     {
@@ -29,7 +30,7 @@
     },
     {
       theme: "phone",
-      text: "phone number",
+      text: "phone",
       icon: "",
     },
     {
@@ -41,9 +42,16 @@
 </script>
 
 <div class="items">
-  {#each MENU_ITEMS as { icon, text }}
-    <div class="items__item">
-      <PatternBlock {icon} {text} />
+  {#each MENU_ITEMS as { icon, text, theme }}
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <div
+      class="items__item"
+      on:click={(e) => {
+        console.log(theme);
+        inputMethod = theme;
+      }}
+    >
+      <PatternBlock {icon} {text} {theme} />
     </div>
   {/each}
 </div>
@@ -60,7 +68,7 @@
 
     &__item {
       flex: 1 1 0px;
-      max-width: 100%;
+      max-width: 160px;
       min-width: 80px;
       height: 80px;
     }

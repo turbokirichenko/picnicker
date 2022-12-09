@@ -1,6 +1,8 @@
 <script>
   import { classes } from "~/shared/utils/classes";
-  export let closed = true;
+  export let right = false;
+  export let left = false;
+
   let state = {
     name: "collapsed", // open
     effect: "", // exit
@@ -10,7 +12,6 @@
     if (state.name === "collapsed") return;
     state.effect = "exit";
     setTimeout(() => {
-      console.log("collapse");
       state.name = "collapsed";
       state.effect = "";
     }, 200);
@@ -18,13 +19,21 @@
 
   const open = () => {
     state.display = true;
-    state.name = "open";
+    if (left) state.name = "left";
+    if (right) state.name = "right";
   };
 
-  $: closed ? collapse() : open();
+  $: !right && !left ? collapse() : open();
 </script>
 
-<div class="add-menu">
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<div
+  class="add-menu"
+  on:click={(e) => {
+    left = false;
+    right = false;
+  }}
+>
   <div
     class={classes(
       "add-menu__content",
@@ -34,7 +43,12 @@
       state.name === "collapsed" && "add-menu__content_collapsed"
     )}
   >
-    <slot />
+    {#if state.name === "right"}
+      <slot name="right" />
+    {/if}
+    {#if state.name === "left"}
+      <slot name="left" />
+    {/if}
   </div>
 </div>
 
@@ -49,7 +63,7 @@
     &__content {
       width: 100%;
       height: auto;
-      background-color: #f9f9f940;
+      background-color: #f9f9f980;
       animation-duration: 0.2s;
       animation-fill-mode: forwards;
 

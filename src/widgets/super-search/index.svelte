@@ -25,6 +25,9 @@
       active: false,
       effect: "",
     },
+    input: {
+      action: "",
+    },
   };
 
   export let elapsed = true;
@@ -128,6 +131,7 @@
   const clickWindow = (e) => {
     // exit only from 'filter' mode
     if (state.searched || state.elapsed) return;
+    state["input"].action = "";
     switchLeftAction("plus");
     switchRightAction("search");
     enableElapsed();
@@ -137,7 +141,6 @@
 
   const checkoutInputMode = (str, actionRight, actionLeft) => {
     if (actionRight === "search") return;
-    console.log("input");
     const checkoutInputRight = (str, actionRight) => {
       if (str && actionRight === "filter") {
         switchRightAction("select");
@@ -169,8 +172,12 @@
 >
   <DropMenu>
     <div slot="menu" class="menu-wrapper">
-      <AddMenu closed={!state["left"].active && !state["right"].active}>
-        <ImportItems />
+      <AddMenu
+        bind:right={state["right"].active}
+        bind:left={state["left"].active}
+      >
+        <PatternItems slot="right" bind:inputMethod={state["input"].action} />
+        <ImportItems slot="left" />
       </AddMenu>
     </div>
     <div
@@ -197,7 +204,10 @@
           </BarButton>
         </div>
         <div class="search-bar__middle">
-          <BarInput bind:searched={state.searched} />
+          <BarInput
+            bind:searched={state.searched}
+            theme={state["input"].action}
+          />
         </div>
         <div class="search-bar__right-wing">
           <BarButton clicked={clickAction[state["right"].action].fn}>
@@ -249,6 +259,7 @@
 
   .search-bar {
     display: flex;
+    align-items: center;
     width: 100%;
     height: 100%;
     background-color: #f9f9f980;
@@ -260,7 +271,7 @@
 
     &__middle {
       flex-grow: 1;
-      height: 100%;
+      height: 80%;
     }
 
     &__right-wing {
