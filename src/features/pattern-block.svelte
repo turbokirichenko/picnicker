@@ -24,9 +24,12 @@
     width: 100%;
     height: 100%;
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    background-color: #f9f9f9;
+    background-color: #98329f;
+    color: #f9f9f9;
     border-radius: 30px;
     padding: 0;
     border: none;
@@ -106,20 +109,17 @@
       background: #f9f9f9;
       color: #4b0050;
     }
-
-    &__icon {
-      width: 20%;
-      height: 100%;
-    }
     &__text {
-      flex-grow: 1;
+      height: auto;
+      width: 80%;
     }
   }
 
   .block-icon {
     display: block;
-    height: 100%;
     padding: 10px;
+    width: 48px;
+    margin: auto;
   }
 
   .some-text {

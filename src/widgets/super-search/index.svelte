@@ -12,6 +12,7 @@
 
   import { ANIMATION_DURATION_MS } from "./constants";
 
+  const DEFAULT_INPUT_PLACEHOLDER = "nickname | phone | email";
   const state = {
     elapsed: true,
     searched: "",
@@ -27,6 +28,7 @@
     },
     input: {
       action: "",
+      placeholder: DEFAULT_INPUT_PLACEHOLDER,
     },
   };
 
@@ -132,6 +134,7 @@
     // exit only from 'filter' mode
     if (state.searched || state.elapsed) return;
     state["input"].action = "";
+    state["input"].placeholder = DEFAULT_INPUT_PLACEHOLDER;
     switchLeftAction("plus");
     switchRightAction("search");
     enableElapsed();
@@ -176,7 +179,11 @@
         bind:right={state["right"].active}
         bind:left={state["left"].active}
       >
-        <PatternItems slot="right" bind:inputMethod={state["input"].action} />
+        <PatternItems
+          slot="right"
+          bind:inputMethod={state["input"].action}
+          bind:placeholderState={state["input"].placeholder}
+        />
         <ImportItems slot="left" />
       </AddMenu>
     </div>
@@ -207,6 +214,7 @@
           <BarInput
             bind:searched={state.searched}
             theme={state["input"].action}
+            placeholder={state["input"].placeholder}
           />
         </div>
         <div class="search-bar__right-wing">

@@ -1,21 +1,25 @@
 <script>
   import PatternBlock from "~/features/pattern-block.svelte";
+  import EarthSvg from "~/shared/icons/earth-grid.svg";
+  import PictureSvg from "~/shared/icons/picture.svg";
+  import PhotoSvg from "~/shared/icons/photo-camera.svg";
+  import AddUserSvg from "~/shared/icons/add-user.svg";
 
   const MENU_ITEMS = [
     {
-      icon: "",
+      icon: PhotoSvg,
       text: "photo",
     },
     {
-      icon: "",
+      icon: PictureSvg,
       text: "gallery",
     },
     {
-      icon: "",
+      icon: AddUserSvg,
       text: "import contact",
     },
     {
-      icon: "",
+      icon: EarthSvg,
       text: "voice",
     },
   ];
