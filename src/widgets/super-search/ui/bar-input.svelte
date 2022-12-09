@@ -24,6 +24,15 @@
     border-radius: 1000px;
     padding: 0 15px;
 
+    &:focus {
+      outline: none;
+    }
+
+    &::placeholder {
+      font-size: 18px;
+      color: #f9f9f980;
+    }
+
     &_instagram {
       background: #f09433;
       background: -moz-linear-gradient(
@@ -91,19 +100,16 @@
     &_email {
       background: #f9f9f9;
       color: #4b0050;
+      &::placeholder {
+        color: #4b005080;
+      }
     }
     &_phone {
       background: #f9f9f9;
       color: #4b0050;
-    }
-
-    &:focus {
-      outline: none;
-    }
-
-    &::placeholder {
-      font-size: 18px;
-      color: #f9f9f980;
+      &::placeholder {
+        color: #4b005080;
+      }
     }
   }
 </style>
