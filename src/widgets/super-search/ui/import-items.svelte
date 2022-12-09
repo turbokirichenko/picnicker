@@ -1,24 +1,32 @@
+<script>
+  import PatternBlock from "~/features/pattern-block.svelte";
+
+  const MENU_ITEMS = [
+    {
+      icon: "",
+      text: "photo",
+    },
+    {
+      icon: "",
+      text: "gallery",
+    },
+    {
+      icon: "",
+      text: "import contact",
+    },
+    {
+      icon: "",
+      text: "voice",
+    },
+  ];
+</script>
+
 <div class="items">
-  <div class="items__item">
-    <div class="way-block">
-      <h1 class="way-block__title">photo</h1>
+  {#each MENU_ITEMS as { icon, text }}
+    <div class="items__item">
+      <PatternBlock {icon} {text} />
     </div>
-  </div>
-  <div class="items__item">
-    <div class="way-block">
-      <h1 class="way-block__title">gallery</h1>
-    </div>
-  </div>
-  <div class="items__item">
-    <div class="way-block">
-      <h1 class="way-block__title">from contacts</h1>
-    </div>
-  </div>
-  <div class="items__item">
-    <div class="way-block">
-      <h1 class="way-block__title">voice</h1>
-    </div>
-  </div>
+  {/each}
 </div>
 
 <style lang="scss">
@@ -36,20 +44,6 @@
       max-width: 100%;
       min-width: 280px;
       height: 80px;
-    }
-  }
-
-  .way-block {
-    width: 100%;
-    height: 100%;
-    background-color: crimson;
-    border-radius: 20px;
-
-    &__title {
-      font-size: 24px;
-      color: #f9f9f9;
-      text-align: center;
-      margin: 0;
     }
   }
 </style>

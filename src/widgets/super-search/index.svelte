@@ -4,7 +4,6 @@
   import FilterSvg from "~/shared/icons/filter-large.svg";
   import PlusLargeSvg from "~/shared/icons/plus-large.svg";
   import DropMenu from "~/features/drop-menu.svelte";
-  import FilterMenu from "./ui/filter-menu.svelte";
   import AddMenu from "./ui/add-menu.svelte";
   import BarButton from "./ui/bar-button.svelte";
   import BarInput from "./ui/bar-input.svelte";

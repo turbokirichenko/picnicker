@@ -62,11 +62,11 @@
             <div class="prologue-block__toggle">
               <div class="arrow-button">
                 <div class="arrow-button__content">
-                  <h1 class="medium-title">LET'S START</h1>
+                  <h1 class="medium-title">START</h1>
                 </div>
-                <div class="arrow-button__arrow">
+                <!--<div class="arrow-button__arrow">
                   <img class="arrow-img" src={ArrowRightSvg} alt="next" />
-                </div>
+                </div>-->
               </div>
             </div>
           </div>
@@ -79,9 +79,7 @@
   </div>
   <div class="greeting-page__floated-item">
     <WallLayout>
-      <div class="wall-content">
-        <div>dawdad</div>
-      </div>
+      <div class="wall-content" />
     </WallLayout>
   </div>
 </main>
@@ -89,6 +87,7 @@
 <style lang="scss">
   .greeting-page {
     width: 100%;
+    min-height: 720px;
     height: 100vh;
     position: relative;
 
@@ -99,8 +98,6 @@
       bottom: 0;
       right: 0;
       width: 100%;
-      //min-height: 100vh;
-      //height: 100vh;
       overflow: hidden;
 
       transition: background-color 0.5s;
@@ -113,12 +110,10 @@
 
     &__floated-item {
       position: absolute;
-      top: 0;
+      top: 100%;
       left: 0;
       width: 100%;
-      height: 100%;
-      min-height: 400px;
-      margin-top: 100vh;
+      height: 1200px;
       overflow: hidden;
     }
   }
@@ -203,6 +198,7 @@
     font-size: 32px;
     text-align: center;
     line-height: 48px;
+    font-family: Comfortaa;
   }
 
   .spantext-block {

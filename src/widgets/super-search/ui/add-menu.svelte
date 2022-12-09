@@ -1,6 +1,5 @@
 <script>
   import { classes } from "~/shared/utils/classes";
-  import { ANIMATION_DURATION_MS } from "../constants";
   export let closed = true;
   let state = {
     name: "collapsed", // open
@@ -14,7 +13,7 @@
       console.log("collapse");
       state.name = "collapsed";
       state.effect = "";
-    }, ANIMATION_DURATION_MS);
+    }, 200);
   };
 
   const open = () => {
@@ -51,7 +50,7 @@
       width: 100%;
       height: auto;
       background-color: #f9f9f940;
-      animation-duration: 0.5s;
+      animation-duration: 0.2s;
       animation-fill-mode: forwards;
 
       &_collapsed {

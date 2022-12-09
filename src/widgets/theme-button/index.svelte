@@ -65,7 +65,7 @@
 <style lang="scss">
   .theme-button {
     width: 100%;
-    max-width: 280px;
+    max-width: 240px;
     height: 60px;
     background: #f9f9f940;
     border-radius: 1000px;
@@ -93,7 +93,7 @@
       font-size: 16px;
       color: white;
       text-align: center;
-      padding: 3px 12px;
+      padding: 3px 20px 0 0;
     }
   }
   .toggle-theme {
