@@ -66,6 +66,7 @@
       background-color: #f9f9f980;
       animation-duration: 0.2s;
       animation-fill-mode: forwards;
+      transition: clip-path 0.2s;
 
       &_collapsed {
         display: none;
