@@ -1,0 +1,1 @@
+export const ORIGIN_URL = '180.120.233.231:9005/api'
