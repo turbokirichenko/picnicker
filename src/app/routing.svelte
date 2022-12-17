@@ -9,7 +9,7 @@
 
   const routingMap = {
     "/": Greeting,
-    "/grable": Grabbing,
+    "/grablee": Grabbing,
     "/gateway": Gateway,
     "/sandbox": Sandbox,
     "/:hashed": Showbox,

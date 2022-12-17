@@ -1,8 +1,5 @@
 <script>
   import { link } from "svelte-spa-router";
-
-  import ArrowRightSvg from "~/shared/icons/arrow-right-impact.svg";
-  import LogoWhiteSvg from "~/shared/assets/logo-white.svg";
   import LogoGrablee from "~/shared/icons/logograblee.svg";
 
   import SuperSearch from "~/widgets/super-search/index.svelte";

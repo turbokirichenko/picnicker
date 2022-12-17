@@ -1,0 +1,23 @@
+{
+    "instagram": {
+        "link": "https://instagram.com/{username}"
+    },
+    "vkontakte": {
+        "link": "https://vk.com/{username}"
+    },
+    "telegram": {
+        "link": "https://t.me/{username}"
+    },
+    "tiktok": {
+        "link": "https://tiktok.com/{username}"
+    },
+    "github": {
+        "link": "https://github.com/{username}"
+    },
+    "phone": {
+        "link": "tel:{username}"
+    },
+    "email": {
+        "link": "mailto:{username}"
+    }
+}

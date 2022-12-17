@@ -1,4 +1,5 @@
 <script>
+  import { push } from "svelte-spa-router";
   import { classes } from "~/shared/utils/classes.js";
   import SearchSvg from "~/shared/icons/search.svg";
   import FilterSvg from "~/shared/icons/filter-large.svg";
@@ -11,6 +12,8 @@
   import PatternItems from "./ui/pattern-items.svelte";
 
   import { ANIMATION_DURATION_MS } from "./constants";
+  import { PUSH_LINK } from "./constants";
+  import TEMPLATE_SITES from "~/shared/template_sites.json";
 
   const DEFAULT_INPUT_PLACEHOLDER = "nickname | phone | email";
   const state = {
@@ -95,7 +98,14 @@
     switchRightActive();
   };
   const clickSelectButton = (e) => {
-    return;
+    let searchParams = new URLSearchParams();
+    searchParams.set("username", state["searched"]);
+    if (state["input"].action) {
+      const siteLink = TEMPLATE_SITES[state["input"].action] || { link: "" };
+      const replaced = siteLink.link.replace("{username}", state["searched"]);
+      searchParams.set("template", state["input"].action);
+    }
+    push(`${PUSH_LINK}?${searchParams}`);
   };
   const clickPlusButton = (e) => {
     switchLeftActive();
