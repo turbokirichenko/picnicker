@@ -18,7 +18,6 @@
 
   const presentBlock = {
     username: "",
-    favicon: "",
     template_url: "",
     image_url: "",
   };
@@ -59,13 +58,17 @@
   const filterSlide = (slide) => {
     if (!Object.keys(slide).length) return false;
     if (!slide.good) return false;
-    const deniedRequest = /(Request denied)|(404 Not Found)/;
+    const deniedRequest =
+      /(Request denied)|(404 Not Found)|(Page Not Found)|(Telegram – a new era of messaging)|(Join group chat on Telegram)/;
     if (slide.title.match(deniedRequest)) {
-      console.log("denied", slide.link);
       return false;
     }
     const badLink = /(facebook.com)|(mobile.twitter.com)/;
     if (slide.link.match(badLink)) {
+      return false;
+    }
+    const pinterest = /(pinterest.com)/;
+    if (slide.link.match(pinterest) && !slide.title) {
       return false;
     }
     return true;
@@ -98,7 +101,10 @@
 
     const template = opts.get("template");
     if (template && TEMPLATE_SITES[template]) {
-      state.template_url = TEMPLATE_SITES[template].link;
+      state.template_url = TEMPLATE_SITES[template].link.replace(
+        "{username}",
+        state.username
+      );
     }
 
     searcher
@@ -164,10 +170,25 @@
         <div class="profile-layout__frame">
           <div class="username-info">
             <div class="username-info__header">
-              <div class="username-heading">
-                <div class="username-heading__username" />
-                <div class="username-heading__url" />
-                <div class="username-heading__image" />
+              <div class="slide">
+                <div
+                  class={classes(
+                    "slide__title",
+                    "slide__infoblock",
+                    `slide__infoblock${!state.username && "-empty"}`
+                  )}
+                >
+                  @{state.username}
+                </div>
+                <div
+                  class={classes(
+                    "slide__link",
+                    "slide__infoblock",
+                    `slide__infoblock${!state.template_url && "-empty"}`
+                  )}
+                >
+                  <a href={state.template_url}>{state.template_url}</a>
+                </div>
               </div>
             </div>
             <div class="username-info__content">
@@ -274,6 +295,12 @@
     &__save-toggle {
       height: 100%;
       aspect-ratio: 1/1;
+    }
+  }
+
+  .username-info {
+    &__header {
+      margin-bottom: 20px;
     }
   }
 

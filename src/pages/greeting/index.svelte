@@ -11,7 +11,7 @@
   let changeTheme = (e) => {
     themeDark = !themeDark;
   };
-  let elapsedSearch = false;
+  let elapsedSearch = true;
 
   let allowClick = false;
   let onDbClick = (fn) => (e) => {
@@ -51,23 +51,24 @@
             </div>
             <div class="prologue-block__item">
               <div class="spantext-block">
-                <span class="spantext-block__text"
-                  >Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                  diam nonumy eirmod tempor invidunt ut labore et dolore magna
-                  aliquyam erat, sed diam voluptua. At vero eos</span
-                >
+                <span class="spantext-block__text">
+                  Our app is a quick way to share information about yourself or
+                  learn more about the person you just met!
+                </span>
               </div>
             </div>
             <div class="prologue-block__toggle">
-              <a href="/sandbox" use:link>
-                <div class="arrow-button">
-                  <div class="arrow-button__content">
-                    <h1 class="medium-title">START</h1>
-                  </div>
-                  <!--<div class="arrow-button__arrow">
-                  <img class="arrow-img" src={ArrowRightSvg} alt="next" />
-                </div>-->
+              <button class="arrow-button">
+                <div class="arrow-button__content">
+                  <h1 class="medium-title">SEARCH</h1>
                 </div>
+              </button>
+              <a href="/sandbox" use:link>
+                <button class="arrow-button">
+                  <div class="arrow-button__content">
+                    <h1 class="medium-title">SHARE</h1>
+                  </div>
+                </button>
               </a>
             </div>
           </div>
@@ -78,11 +79,13 @@
       </div>
     </BlurLayout>
   </div>
+  <!--
   <div class="greeting-page__floated-item">
     <WallLayout>
       <div class="wall-content" />
     </WallLayout>
   </div>
+-->
 </main>
 
 <style lang="scss">
@@ -158,7 +161,7 @@
     &__content {
       width: 100%;
       max-width: 360px;
-      min-height: 480px;
+      min-height: 360px;
       padding: 20px;
     }
     &__footer {
@@ -183,13 +186,16 @@
       height: 70px;
     }
     &__item {
-      width: 80%;
+      width: 100%;
       min-height: 120px;
     }
     &__toggle {
       width: 100%;
       height: 70px;
       padding: 0 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
   }
 
@@ -211,6 +217,12 @@
       line-height: 28px;
       text-align: center;
     }
+    &__p {
+      padding: 10px;
+      font-size: 21px;
+      border: 2px solid #f9f9f9;
+      border-radius: 15px;
+    }
   }
 
   .arrow-button {
@@ -223,10 +235,11 @@
     gap: 10px;
     top: 0;
     left: 0;
-    padding: 15px;
+    padding: 20px;
     border: 2px solid #f9f9f9;
     border-radius: 40px;
     padding: 0 10%;
+    background: none;
     &__content {
       height: 48px;
     }
