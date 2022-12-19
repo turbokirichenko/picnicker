@@ -127,7 +127,7 @@
 </script>
 
 <div class="grabing-page">
-  <AnimateLayout view={true} layer={getRandomLayer()}>
+  <AnimateLayout view={false} layer={getRandomLayer()}>
     {#if state.loading}
       <div class="loading-theme">
         <div class="loading-theme__icon" />
@@ -250,6 +250,8 @@
 
   .profile-layout {
     width: 100%;
+    max-width: 520px;
+    margin: auto;
     height: auto;
     animation-name: arrived;
     animation-duration: 2.2s;
@@ -303,11 +305,11 @@
     gap: 20px;
     &__item {
       width: 100%;
-      max-width: 480px;
     }
   }
 
   .slide {
+    width: 100%;
     padding: 20px;
     background-color: #f9f9f980;
     border-radius: 20px;

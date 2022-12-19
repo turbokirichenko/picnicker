@@ -27,13 +27,12 @@
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<div class="parallax-layout">
+<div class="parallax-layout" on:click={onDBClick}>
   <div
     class={classes(
       createBEM("parallax-layout", "bg"),
       createBEM("parallax-layout", "bg", String(layer % 2))
     )}
-    on:click={onDBClick}
   />
   <div class="parallax-layout__layers">
     {#each subArr[layer] as _, i}
