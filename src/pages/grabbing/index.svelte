@@ -169,28 +169,7 @@
         </div>
         <div class="profile-layout__frame">
           <div class="username-info">
-            <div class="username-info__header">
-              <div class="slide">
-                <div
-                  class={classes(
-                    "slide__title",
-                    "slide__infoblock",
-                    `slide__infoblock${!state.username && "-empty"}`
-                  )}
-                >
-                  @{state.username}
-                </div>
-                <div
-                  class={classes(
-                    "slide__link",
-                    "slide__infoblock",
-                    `slide__infoblock${!state.template_url && "-empty"}`
-                  )}
-                >
-                  <a href={state.template_url}>{state.template_url}</a>
-                </div>
-              </div>
-            </div>
+            <div class="username-info__header" />
             <div class="username-info__content">
               <div class="slides">
                 {#each slides as slide}
@@ -342,13 +321,16 @@
     border-radius: 20px;
 
     &__infoblock {
-      margin: 0px 5px 10px;
+      max-width: 100%;
       display: inline-block;
       padding: 2px 15px;
       border-radius: 15px;
       font-size: 16px;
       font-family: Comfortaa;
       line-height: 24px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      color: #98329f;
 
       &-empty {
         display: none;
@@ -368,7 +350,7 @@
       border: solid 2px #98329f;
     }
     &__description {
-      padding: 0;
+      padding: 2px 0;
       color: #98329f;
     }
     &__image {

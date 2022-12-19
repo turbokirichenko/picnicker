@@ -1,1 +1,1 @@
-export const ORIGIN_URL = 'http://188.120.233.231:9005/api'
+export const ORIGIN_URL = 'https://crosszerot.fvds.ru:443/api'
