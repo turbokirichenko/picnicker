@@ -1,6 +1,10 @@
 <script>
   import { onMount } from "svelte";
-  import { querystring } from "svelte-spa-router";
+  import { querystring, pop } from "svelte-spa-router";
+  import { classes } from "~/shared/utils/classes";
+  import SaveSvg from "~/shared/icons/save.svg";
+  import ArrowSvg from "~/shared/icons/bx-right-arrow.svg";
+  import AnimateLayout from "~/widgets/animate-layout/index.svelte";
   import searcher from "~/entities/searcher";
   import TEMPLATE_SITES from "~/shared/template_sites.json";
 
@@ -52,6 +56,20 @@
 
     return ogData;
   };
+  const filterSlide = (slide) => {
+    if (!Object.keys(slide).length) return false;
+    if (!slide.good) return false;
+    const deniedRequest = /(Request denied)|(404 Not Found)/;
+    if (slide.title.match(deniedRequest)) {
+      console.log("denied", slide.link);
+      return false;
+    }
+    const badLink = /(facebook.com)|(mobile.twitter.com)/;
+    if (slide.link.match(badLink)) {
+      return false;
+    }
+    return true;
+  };
   const buildingSlides = (data) => {
     const slidesArr = data.map((item) => {
       let slideBlock = {};
@@ -67,7 +85,7 @@
       }
       return slideBlock;
     });
-    return slidesArr.filter((item) => Object.keys(item).length);
+    return slidesArr.filter((item) => filterSlide(item));
   };
 
   onMount(() => {
@@ -88,6 +106,7 @@
       .then((response) => {
         const { data } = response;
         if (!data) throw new Error("Connection reffused!");
+        console.log(response);
         state.data = data.data;
         state.loading = false;
       })
@@ -98,50 +117,119 @@
   });
 
   $: slides = buildingSlides(state.data);
+
+  //get random layer
+  const getRandomLayer = () => {
+    const min = 1;
+    const max = 4;
+    return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
+  };
 </script>
 
 <div class="grabing-page">
-  {#if state.loading}
-    <div class="loading-theme">
-      <div class="loading-theme__icon" />
-    </div>
-  {:else}
-    <div class="profile-layout">
-      <div class="profile-layout__frame">
-        <div class="username-info">
-          <div class="username-info__header">
-            <div class="username-heading">
-              <div class="username-heading__username" />
-              <div class="username-heading__url" />
-              <div class="username-heading__image" />
+  <AnimateLayout view={true} layer={getRandomLayer()}>
+    {#if state.loading}
+      <div class="loading-theme">
+        <div class="loading-theme__icon" />
+      </div>
+    {:else}
+      <div class="profile-layout">
+        <div class="profile-layout__header">
+          <header class="grabb-header">
+            <div class="grabb-header__back-toggle">
+              <button
+                class="image-toggle"
+                on:click={(e) => {
+                  pop();
+                }}
+              >
+                <img
+                  class="image-toggle__image"
+                  src={ArrowSvg}
+                  alt="toggle content"
+                />
+              </button>
             </div>
-          </div>
-          <div class="username-info__content">
-            <div class="slides">
-              {#each slides as slide}
-                <div class="slides__item">
-                  <div class="slide">
-                    <div class="slide__link">{slide.link}</div>
-                    <div class="slide__lang">{slide.lang}</div>
-                    <div class="slide__title">{slide.title}</div>
-                    <div class="slide__description">{slide.description}</div>
-                    <div class="slide__image">
-                      <img src={slide.image} alt="" />
+            <div class="grabb-header__save-toggle">
+              <button class="image-toggle">
+                <img
+                  class="image-toggle__image"
+                  src={SaveSvg}
+                  alt="toggle content"
+                />
+              </button>
+            </div>
+          </header>
+        </div>
+        <div class="profile-layout__frame">
+          <div class="username-info">
+            <div class="username-info__header">
+              <div class="username-heading">
+                <div class="username-heading__username" />
+                <div class="username-heading__url" />
+                <div class="username-heading__image" />
+              </div>
+            </div>
+            <div class="username-info__content">
+              <div class="slides">
+                {#each slides as slide}
+                  <div class="slides__item">
+                    <div class="slide">
+                      <div
+                        class={classes(
+                          "slide__link",
+                          "slide__infoblock",
+                          `slide__infoblock${!slide.link && "-empty"}`
+                        )}
+                      >
+                        <a href={slide.link}>{slide.link}</a>
+                      </div>
+                      <div
+                        class={classes(
+                          "slide__lang",
+                          "slide__infoblock",
+                          `slide__infoblock${!slide.lang && "-empty"}`
+                        )}
+                      >
+                        {slide.lang}
+                      </div>
+                      <div
+                        class={classes(
+                          "slide__title",
+                          "slide__infoblock",
+                          `slide__infoblock${!slide.title && "-empty"}`
+                        )}
+                      >
+                        {slide.title}
+                      </div>
+                      <div
+                        class={classes(
+                          "slide__description",
+                          "slide__infoblock",
+                          `slide__infoblock${!slide.description && "-empty"}`
+                        )}
+                      >
+                        {slide.description}
+                      </div>
+                      <div class="slide__image">
+                        <img class="raped-image" src={slide.image} alt="" />
+                      </div>
                     </div>
                   </div>
-                </div>
-              {/each}
+                {/each}
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  {/if}
+    {/if}
+  </AnimateLayout>
 </div>
 
 <style lang="scss">
   .grabing-page {
     width: 100%;
+    min-height: 100vh;
   }
   .loading-theme {
     width: 100%;
@@ -149,11 +237,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: coral;
     &__icon {
       width: 50px;
       height: 50px;
-      background-color: brown;
+      background-color: #f9f9f9;
       animation-name: loading;
       animation-duration: 10s;
       animation-iteration-count: infinite;
@@ -161,20 +248,111 @@
     }
   }
 
+  .profile-layout {
+    width: 100%;
+    height: auto;
+    animation-name: arrived;
+    animation-duration: 2.2s;
+    padding: 20px;
+
+    &__header {
+      width: 100%;
+      height: 60px;
+      margin-bottom: 40px;
+    }
+  }
+
+  .grabb-header {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    &__back-toggle,
+    &__save-toggle {
+      height: 100%;
+      aspect-ratio: 1/1;
+    }
+  }
+
+  .image-toggle {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 100px;
+    padding: 15px;
+    margin: 0;
+    border: 2px solid #fff;
+    background: none;
+    &:focus {
+      outline: none;
+    }
+
+    &__image {
+      display: block;
+      width: 100%;
+    }
+  }
+
   .slides {
     width: 100%;
-    padding: 100px 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 20px;
-    background-color: brown;
     &__item {
-      padding: 20px;
-      background-color: #f9f9f980;
-      border-radius: 20px;
+      width: 100%;
+      max-width: 480px;
     }
+  }
+
+  .slide {
+    padding: 20px;
+    background-color: #f9f9f980;
+    border-radius: 20px;
+
+    &__infoblock {
+      margin: 0px 5px 10px;
+      display: inline-block;
+      padding: 2px 15px;
+      border-radius: 15px;
+      font-size: 16px;
+      font-family: Comfortaa;
+      line-height: 24px;
+
+      &-empty {
+        display: none;
+      }
+    }
+
+    &__link {
+      background-color: #f9f9f9;
+      color: #98329f;
+    }
+    &__lang {
+      background-color: #98329f;
+      color: #f9f9f9;
+    }
+    &__title {
+      color: #98329f;
+      border: solid 2px #98329f;
+    }
+    &__description {
+      padding: 0;
+      color: #98329f;
+    }
+    &__image {
+      padding: 20px 0;
+    }
+  }
+
+  .raped-image {
+    display: block;
+    width: 100%;
+    max-width: 360px;
+    margin: auto;
+    border-radius: 15px;
   }
 
   @keyframes loading {
@@ -183,6 +361,15 @@
     }
     100% {
       transform: rotate(360deg);
+    }
+  }
+
+  @keyframes arrived {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
     }
   }
 </style>

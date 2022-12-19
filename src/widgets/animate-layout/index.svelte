@@ -60,25 +60,23 @@
   );
 
   .parallax-layout {
-    position: relative;
-    top: 0;
-    left: 0;
     width: 100%;
-    height: 100%;
+    min-height: 100vh;
     background: none;
     overflow: hidden;
 
     &__bg {
-      position: absolute;
+      position: fixed;
       top: 0;
       left: 0;
-      bottom: 0;
-      right: 0;
+      width: 100%;
+      height: 100vh;
       background: linear-gradient(270deg, #80e5ff, #024);
       background-size: 400% 400%;
       animation-duration: 1s;
       animation-fill-mode: forwards;
       animation-name: bg-left;
+      z-index: -1;
 
       &_0 {
         animation-name: bg-left;
@@ -90,7 +88,13 @@
     }
 
     &__layers {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
       background: none;
+      z-index: -1;
       pointer-events: none;
     }
   }
