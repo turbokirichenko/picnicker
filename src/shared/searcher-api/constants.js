@@ -1,1 +1,1 @@
-export const ORIGIN_URL = 'https://crosszerot.fvds.ru:443/api'
+export const ORIGIN_URL = 'https://grablee-api.online:443/api'

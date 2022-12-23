@@ -1,13 +1,14 @@
 <script>
   import { link } from "svelte-spa-router";
+  import { state } from "./storage";
   import LogoGrablee from "~/shared/icons/logograblee.svg";
 
   import SuperSearch from "~/widgets/super-search/index.svelte";
   import ThemeButtom from "~/widgets/theme-button/index.svelte";
-  import BlurLayout from "~/features/blur-layout.svelte";
+  import BlurBackground from "~/features/blur-layout.svelte";
   import WallLayout from "~/features/wall-layout.svelte";
 
-  let themeDark = false;
+  let themeDark = true;
   let changeTheme = (e) => {
     themeDark = !themeDark;
   };
@@ -27,65 +28,46 @@
 </script>
 
 <main class="greeting-page">
-  <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <div
-    class={`greeting-page__fixed-item greeting-page__fixed-item${
-      themeDark && "-dark"
-    }`}
-    on:click={onDbClick(changeTheme)}
-  >
-    <BlurLayout>
-      <div class="description-block">
-        <div class="description-block__header">
-          <div class="absolute-block">
-            <ThemeButtom bind:dark={themeDark} hide={!elapsedSearch} />
-          </div>
-          <div class="absolute-block">
-            <SuperSearch bind:elapsed={elapsedSearch} />
-          </div>
-        </div>
-        <div class="description-block__content">
-          <div class="prologue-block">
-            <div class="prologue-block__heading">
-              <img class="logo" src={LogoGrablee} alt="logo white" />
+  <section class="greeting-page__background">
+    <BlurBackground />
+  </section>
+  <section class="greeting-page__content-page">
+    <div class="page-internal-content">
+      <div class="page-internal-content__fixed-item">
+        <div class="description-block">
+          <div class="description-block__header">
+            <div class="header-nav-panel">
+              <ThemeButtom bind:dark={themeDark} hide={!elapsedSearch} />
+              <SuperSearch bind:elapsed={elapsedSearch} />
             </div>
-            <div class="prologue-block__item">
-              <div class="spantext-block">
-                <span class="spantext-block__text">
-                  Our app is a quick way to share information about yourself or
-                  learn more about the person you just met!
-                </span>
+          </div>
+          <div class="description-block__content">
+            <div class="prologue-block">
+              <div class="prologue-block__heading">
+                <img class="logo" src={LogoGrablee} alt="logo white" />
               </div>
-            </div>
-            <div class="prologue-block__toggle">
-              <button class="arrow-button">
-                <div class="arrow-button__content">
-                  <h1 class="medium-title">SEARCH</h1>
-                </div>
-              </button>
-              <a href="/sandbox" use:link>
+              <div class="prologue-block__item" />
+              <div class="prologue-block__toggle">
                 <button class="arrow-button">
                   <div class="arrow-button__content">
-                    <h1 class="medium-title">SHARE</h1>
+                    <h1 class="medium-title">SEARCH</h1>
                   </div>
                 </button>
-              </a>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="description-block__footer">
-          <h3 class="footer-description">about project</h3>
+          <div class="description-block__footer">
+            <h3 class="footer-description">about project</h3>
+          </div>
         </div>
       </div>
-    </BlurLayout>
-  </div>
-  <!--
-  <div class="greeting-page__floated-item">
-    <WallLayout>
-      <div class="wall-content" />
-    </WallLayout>
-  </div>
--->
+      <div class="page-internal-content__float-item">
+        <WallLayout>
+          <div class="wall-content" />
+        </WallLayout>
+      </div>
+    </div>
+  </section>
 </main>
 
 <style lang="scss">
@@ -95,6 +77,18 @@
     height: 100vh;
     position: relative;
 
+    &__background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      width: 100%;
+      overflow: hidden;
+    }
+  }
+
+  .page-internal-content {
     &__fixed-item {
       position: fixed;
       top: 0;
@@ -103,16 +97,9 @@
       right: 0;
       width: 100%;
       overflow: hidden;
-
-      transition: background-color 0.5s;
-      background-color: rgb(250, 250, 250);
-
-      &-dark {
-        background-color: rgb(0, 0, 0);
-      }
     }
 
-    &__floated-item {
+    &__float-item {
       position: absolute;
       top: 100%;
       left: 0;
@@ -170,6 +157,12 @@
       height: 80px;
       padding: 10px;
     }
+  }
+
+  .header-nav-panel {
+    display: flex;
+    height: 100%;
+    justify-content: space-between;
   }
 
   .prologue-block {
