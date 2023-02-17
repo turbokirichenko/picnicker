@@ -18,7 +18,7 @@
     <label
       class={classes(
         "theme-button",
-        createBEM("theme-button", "", isDark(darkTheme))
+        createBEM("theme-button", "", isDark(!darkTheme))
       )}
       on:click={handleTheme(theme === color)}
     >
@@ -82,7 +82,7 @@
       transform: translate(-50%, -50%);
       animation-fill-mode: forwards;
       animation-duration: 0.3s;
-      background-color: tomato;
+      //background-color: tomato;
 
       &_common {
         animation-name: change-color-reverse;

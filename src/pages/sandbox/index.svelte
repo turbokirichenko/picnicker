@@ -68,16 +68,16 @@
   .menu-wrapper {
     position: absolute;
     top: 10%;
-    left: calc(50% - 145px);
-    width: 290px;
-    height: 72px;
+    left: calc(50% - 144px);
+    width: 288px;
+    height: 100px;
   }
   .hcard-wrapper {
     position: absolute;
-    top: calc(50% - 145px);
-    left: calc(50% - 145px);
-    width: 290px;
-    height: 290px;
+    top: calc(50% - 144px);
+    left: calc(50% - 144px);
+    width: 288px;
+    height: 288px;
   }
   .footer-wrapper {
     position: absolute;

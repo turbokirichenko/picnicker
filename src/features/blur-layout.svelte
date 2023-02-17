@@ -45,14 +45,14 @@
     width: 100%;
     height: 100%;
     position: relative;
-    background-color: #32103a;
+    background-color: #2e302f;
     top: 0;
     left: 0;
     z-index: -1;
 
     &__item {
       position: absolute;
-      background-color: #98329f;
+      background-color: #f9f9f9;
       display: block;
       border-radius: 50%;
       animation-name: rotate;

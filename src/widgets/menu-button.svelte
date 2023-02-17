@@ -43,15 +43,16 @@
     height: 100%;
     display: flex;
     align-items: center;
+    gap: 12px;
 
     &__qr-effect {
       flex: 1 1 0px;
-      padding: 13px;
+      padding: 0;
     }
 
     &__save-effect {
       flex: 4 1 0px;
-      padding: 10px;
+      padding: 0;
     }
 
     &__border {

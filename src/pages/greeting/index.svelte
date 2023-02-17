@@ -102,7 +102,7 @@
     font-family: Comfortaa;
     text-align: center;
     margin: 0;
-    color: #98329f;
+    color: #2e302f;
     line-height: 60px;
   }
 

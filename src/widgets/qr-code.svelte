@@ -60,7 +60,6 @@
   .qr-show {
     width: 100%;
     height: 100%;
-    padding: 24px;
     display: flex;
     flex-direction: column;
     &__image {
@@ -68,7 +67,7 @@
       width: 100%;
       height: 100%;
       padding: 30px;
-      border-radius: 20px;
+      border-radius: 3px;
       background-color: #f4f4f4;
     }
   }
