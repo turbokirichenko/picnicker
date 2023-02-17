@@ -38,9 +38,6 @@
       "blur-animated-block__item-5"
     )}
   />
-  <div class="blur-animated-block__blur">
-    <slot />
-  </div>
 </div>
 
 <style lang="scss">
@@ -48,9 +45,10 @@
     width: 100%;
     height: 100%;
     position: relative;
-    background-color: #98329f80;
+    background-color: #32103a;
     top: 0;
     left: 0;
+    z-index: -1;
 
     &__item {
       position: absolute;
@@ -61,7 +59,6 @@
       animation-iteration-count: infinite;
       animation-timing-function: linear;
       filter: blur(10px);
-      z-index: -1;
 
       &-1 {
         top: 10%;
@@ -114,14 +111,6 @@
         width: 14vmax;
         height: 14vmax;
       }
-    }
-
-    &__blur {
-      display: block;
-      max-width: 900px;
-      overflow: hidden;
-      margin: auto;
-      height: 100%;
     }
   }
 
