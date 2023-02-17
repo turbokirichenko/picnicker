@@ -42,19 +42,7 @@
             </div>
           </div>
           <div class="description-block__content">
-            <div class="prologue-block">
-              <div class="prologue-block__heading">
-                <img class="logo" src={LogoGrablee} alt="logo white" />
-              </div>
-              <div class="prologue-block__item" />
-              <div class="prologue-block__toggle">
-                <button class="arrow-button">
-                  <div class="arrow-button__content">
-                    <h1 class="medium-title">SEARCH</h1>
-                  </div>
-                </button>
-              </div>
-            </div>
+            <img class="logo" src={LogoGrablee} alt="logo white" />
           </div>
           <div class="description-block__footer">
             <h3 class="footer-description">about project</h3>
@@ -146,8 +134,9 @@
       position: relative;
     }
     &__content {
-      width: 100%;
-      max-width: 360px;
+      max-width: 720px;
+      width: 40%;
+      min-width: 320px;
       min-height: 360px;
       padding: 20px;
     }
@@ -189,6 +178,18 @@
       display: flex;
       flex-direction: column;
       gap: 20px;
+    }
+  }
+
+  .about-app-block {
+    width: 100%;
+    &__paragraph {
+      height: 60px;
+      font-size: 21px;
+      margin: 6px 0;
+      font-family: Comfortaa;
+      text-align: center;
+      overflow: hidden;
     }
   }
 

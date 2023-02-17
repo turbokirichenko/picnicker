@@ -60,15 +60,15 @@
     if (!slide.good) return false;
     const deniedRequest =
       /(Request denied)|(404 Not Found)|(Page Not Found)|(Telegram – a new era of messaging)|(Join group chat on Telegram)/;
-    if (slide.title.match(deniedRequest)) {
+    if (slide.title && slide.title.match(deniedRequest)) {
       return false;
     }
     const badLink = /(facebook.com)|(mobile.twitter.com)/;
-    if (slide.link.match(badLink)) {
+    if (slide.link && slide.link.match(badLink)) {
       return false;
     }
     const pinterest = /(pinterest.com)/;
-    if (slide.link.match(pinterest) && !slide.title) {
+    if (slide.link && slide.link.match(pinterest) && !slide.title) {
       return false;
     }
     return true;
