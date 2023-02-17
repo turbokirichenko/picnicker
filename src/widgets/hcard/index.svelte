@@ -21,25 +21,52 @@
     pattern: 0,
   };
   $: data = { ...defaultData, ...data };
-  $: console.log(data);
 
+  let input;
   const onClickIcon = () =>
-    !view && (data.pattern = (data.pattern + 1) % ICONS.length);
+    !view && !data.bio && (data.pattern = (data.pattern + 1) % ICONS.length);
+  const selectInput = (e) => {
+    input.focus();
+    input.select();
+    return true;
+  };
+
+  const stringToColor = function (str) {
+    function hexToRgb(hex) {
+      var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+      const r = parseInt(result[1], 16);
+      const g = parseInt(result[2], 16);
+      const b = parseInt(result[3], 16);
+      return result ? `rgb(${r},${g},${b})` : "rgb(0,0,0)";
+    }
+    var hash = 0;
+    for (var i = 0; i < str.length; i++) {
+      hash = hash << 3;
+    }
+    var colour = "#";
+    for (var i = 0; i < 3; i++) {
+      var value = (hash >> (i * 8)) & 0xff;
+      colour += ("00" + value.toString(16)).substr(-2);
+    }
+    return hexToRgb(colour);
+  };
 </script>
 
 <Bar>
-  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <!-- svelte-ignore a11y-click-events-have-key-events style="background-color: {stringToColor(data.bio)}" -->
   <article
     class={classes("hcard", createBEM("hcard", "", isDark(data.dark)))}
     on:click={onClickIcon}
+    style="background-color: {stringToColor(data.bio)}"
   >
     <img class="bg-icon" src={ICONS[data.pattern].icon} alt="bg active icon" />
     <input
       class="active-input"
       disabled={view}
       placeholder={ICONS[data.pattern].placeholder}
+      bind:this={input}
       bind:value={data.bio}
-      on:click={(e) => e.stopPropagation()}
+      on:click={(e) => selectInput() && e.stopPropagation()}
     />
     {#if !view}
       <span class="footer-text"
@@ -54,9 +81,9 @@
 
   @mixin setBgItems($name, $color) {
     &_#{$name} {
-      background-color: $color;
+      //background-color: $color;
       &::before {
-        background: linear-gradient(145deg, #00000000, $color, #00000000);
+        background: radial-gradient(#{$color}d0, $color, $color);
       }
     }
   }
@@ -64,16 +91,17 @@
   .hcard {
     display: block;
     min-width: 240px;
-    min-height: 240px;
+    min-height: 120px;
     height: 100%;
     position: relative;
     top: 0;
     left: 0;
-    background-color: #fff;
+    background-color: #f77eff;
     border-radius: 3px;
     overflow: hidden;
     background-size: 8px 8px;
-    box-shadow: 0px 0px 15px #00000080;
+    //box-shadow: 0px 0px 15px #00000080;
+    transition: background-color 0.2s;
 
     &::after {
       display: block;
@@ -106,7 +134,10 @@
     color: #f9f9f9;
     background: none;
     border: none;
-    font-size: 28px;
+    font-size: 26px;
+    overflow: hidden;
+    padding: 0 15px;
+    text-overflow: ellipsis;
     &::placeholder {
       color: #f9f9f9b0;
     }
@@ -118,10 +149,10 @@
 
   .bg-icon {
     position: absolute;
-    width: 120px;
-    height: 120px;
-    top: calc(50% - 60px);
-    left: calc(50% - 60px);
+    width: 100px;
+    height: 100px;
+    top: calc(50% - 50px);
+    left: calc(50% - 50px);
     filter: invert(0.5);
     opacity: 0.2;
     pointer-events: none;

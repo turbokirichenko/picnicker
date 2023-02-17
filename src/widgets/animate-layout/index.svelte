@@ -31,7 +31,7 @@
   <div
     class={classes(
       createBEM("parallax-layout", "bg"),
-      createBEM("parallax-layout", "bg", String(layer % 2))
+      createBEM("parallax-layout", "bg", String(layer % 4))
     )}
   />
   <div class="parallax-layout__layers">
@@ -70,19 +70,24 @@
       left: 0;
       width: 100%;
       height: 100vh;
-      background: linear-gradient(270deg, #80e5ff, #024);
-      background-size: 400% 400%;
-      animation-duration: 1s;
-      animation-fill-mode: forwards;
-      animation-name: bg-left;
+      background-color: rgb(155, 202, 242);
+      transition: 0.5s;
       z-index: -1;
 
       &_0 {
-        animation-name: bg-left;
+        background-color: rgb(124, 185, 232);
       }
 
       &_1 {
-        animation-name: bg-right;
+        background-color: rgb(87, 67, 124);
+      }
+
+      &_2 {
+        background-color: rgb(155, 202, 242);
+      }
+
+      &_3 {
+        background-color: rgb(33, 34, 38);
       }
     }
 

@@ -1,1 +1,1 @@
-export const OBJECT_TYPE = ["dark", "color", "bio", "contacts"];
+export const OBJECT_TYPE = ["dark", "color", "bio", "contacts", "pattern"];
