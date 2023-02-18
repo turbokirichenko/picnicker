@@ -45,7 +45,7 @@
     width: 100%;
     height: 100%;
     position: relative;
-    background-color: #2e302f;
+    background-color: #262626;
     top: 0;
     left: 0;
     z-index: -1;
@@ -66,6 +66,7 @@
         animation-delay: -2s;
         animation-direction: reverse;
         animation-duration: 40s;
+        background-color: #ffcc00;
       }
 
       &-2 {
@@ -73,6 +74,7 @@
         right: 0%;
         animation-delay: -4s;
         animation-duration: 25s;
+        background-color: #d93d04;
       }
 
       &-5 {
@@ -80,6 +82,7 @@
         left: 35%;
         animation-delay: -10s;
         animation-duration: 20s;
+        background-color: #f77eff;
       }
 
       &-4 {
@@ -88,6 +91,7 @@
         animation-delay: -8s;
         animation-direction: reverse;
         animation-duration: 30s;
+        background-color: #f77eff;
       }
 
       &-3 {
@@ -95,6 +99,7 @@
         right: -5%;
         animation-delay: -6s;
         animation-duration: 15s;
+        background-color: #f9f9f9;
       }
 
       &-big {
