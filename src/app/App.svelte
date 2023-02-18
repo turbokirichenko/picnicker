@@ -1,9 +1,12 @@
 <script>
   import Routing from "./routing.svelte";
+  import Page from "~/widgets/page/index.svelte";
 </script>
 
 <main class="app">
-  <Routing />
+  <Page>
+    <Routing />
+  </Page>
 </main>
 
 <style lang="scss">
