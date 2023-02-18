@@ -1,13 +1,9 @@
 <script>
+  import { fade } from "svelte/transition";
   import { classes } from "~/shared/utils/classes.js";
   import { createBEM } from "~/shared/utils/create-bem.js";
-  import helloEmojiSrc from "~/shared/assets/hello-emoji.svg";
   import { COLORS, ICONS } from "./constants";
   import Bar from "~/features/menu-element/index.svelte";
-  import ColorsGroup from "./ui/colors-group.svelte";
-  import ContactGroup from "./ui/contact-group.svelte";
-  import Header from "./ui/header.svelte";
-  import Editor from "./ui/editor.svelte";
 
   const isDark = (theme) => (theme ? "light" : "dark");
   export let view = true;
@@ -30,25 +26,12 @@
     input.select();
     return true;
   };
-
-  const stringToColor = function (str) {
-    function hexToRgb(hex) {
-      var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-      const r = parseInt(result[1], 16);
-      const g = parseInt(result[2], 16);
-      const b = parseInt(result[3], 16);
-      return result ? `rgb(${r},${g},${b})` : "rgb(0,0,0)";
-    }
-    var hash = 0;
-    for (var i = 0; i < str.length; i++) {
-      hash = hash << 3;
-    }
-    var colour = "#";
-    for (var i = 0; i < 3; i++) {
-      var value = (hash >> (i * 8)) & 0xff;
-      colour += ("00" + value.toString(16)).substr(-2);
-    }
-    return hexToRgb(colour);
+  const onClickLink = (e) => {
+    if (!view) return true;
+    const src = ICONS[data.pattern]?.src;
+    const url = src ? src.replace(/\{@your\}/i, data.bio) : "";
+    if (url) location.href = url;
+    return true;
   };
 </script>
 
@@ -56,23 +39,32 @@
   <!-- svelte-ignore a11y-click-events-have-key-events style="background-color: {stringToColor(data.bio)}" -->
   <article
     class={classes("hcard", createBEM("hcard", "", isDark(data.dark)))}
-    on:click={onClickIcon}
-    style="background-color: {stringToColor(data.bio)}"
+    on:click={(e) => onClickLink(e) && onClickIcon()}
   >
-    <img class="bg-icon" src={ICONS[data.pattern].icon} alt="bg active icon" />
-    <input
-      class="active-input"
-      disabled={view}
-      placeholder={ICONS[data.pattern].placeholder}
-      bind:this={input}
-      bind:value={data.bio}
-      on:click={(e) => selectInput() && e.stopPropagation()}
-    />
-    {#if !view}
-      <span class="footer-text"
-        >tap to <b class="footer-text__bold">change</b> name</span
-      >
-    {/if}
+    {#key data.pattern}
+      <img
+        in:fade={{ duration: 500 }}
+        class="bg-icon"
+        src={ICONS[data.pattern].icon}
+        alt="bg active icon"
+      />
+      <input
+        in:fade={{ duration: 500 }}
+        class="active-input"
+        disabled={view}
+        placeholder={ICONS[data.pattern].placeholder}
+        bind:this={input}
+        bind:value={data.bio}
+        on:click={(e) => selectInput() && e.stopPropagation()}
+      />
+    {/key}
+    <span class="footer-text">
+      {#if !view}
+        tap to <b class="footer-text__bold">change</b> name
+      {:else}
+        tap to <b class="footer-text__bold">open</b> account
+      {/if}
+    </span>
   </article>
 </Bar>
 
@@ -83,7 +75,7 @@
     &_#{$name} {
       //background-color: $color;
       &::before {
-        background: radial-gradient(#{$color}d0, $color, $color);
+        background: radial-gradient(#{$color}a0, $color, $color);
       }
     }
   }
@@ -96,7 +88,7 @@
     position: relative;
     top: 0;
     left: 0;
-    background-color: #f77eff;
+    background-color: #262626;
     border-radius: 3px;
     overflow: hidden;
     background-size: 8px 8px;

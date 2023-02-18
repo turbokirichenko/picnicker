@@ -60,19 +60,20 @@
 
   .parallax-layout {
     width: 100%;
-    min-height: 100vh;
+    height: 100%;
     background: none;
+    position: relative;
     overflow: hidden;
 
     &__bg {
-      position: fixed;
+      position: absolute;
       top: 0;
       left: 0;
       width: 100%;
-      height: 100vh;
+      height: 100%;
       background-color: rgb(155, 202, 242);
       transition: 0.5s;
-      z-index: -1;
+      z-index: 0;
 
       &_0 {
         background-color: rgb(124, 185, 232);
@@ -92,13 +93,13 @@
     }
 
     &__layers {
-      position: fixed;
+      position: absolute;
       top: 0;
       left: 0;
       width: 100%;
-      height: 100vh;
+      height: 100%;
       background: none;
-      z-index: -1;
+      z-index: 0;
       pointer-events: none;
     }
   }

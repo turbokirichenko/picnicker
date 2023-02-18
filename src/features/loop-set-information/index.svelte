@@ -23,10 +23,10 @@
 
   @keyframes loop {
     0% {
-      left: 0;
+      transform: translateX(0);
     }
     100% {
-      left: -1100px;
+      transform: translateX(-1100px);
     }
   }
 </style>

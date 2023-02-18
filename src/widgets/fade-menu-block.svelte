@@ -15,11 +15,7 @@
   </p>
   <p class="fade-block__text" in:fade={{ delay: 4000, duration: 2000 }}>
     <a class="geolink" href="/sandbox" use:link>
-      Let's start! <img
-        class="geolink__img"
-        src={arrowRight}
-        alt="right arrow"
-      />
+      Try Now <img class="geolink__img" src={arrowRight} alt="right arrow" />
     </a>
   </p>
 </div>
@@ -40,22 +36,19 @@
     &__title {
       width: 100%;
       text-align: center;
-      font-size: 3em;
-      margin: 20px 0;
+      margin: 20px 0 0;
     }
 
     &__text {
-      font-size: 3rem;
       padding: 0 3%;
       margin: 20px 0;
     }
   }
 
   .wall-text {
-    font-size: 7rem;
+    font-size: 9rem;
     &__aczhent {
       color: #d93d04;
-      font-size: 1.1em;
     }
   }
 
@@ -67,15 +60,16 @@
   .geolink {
     display: block;
     padding: 10px 16px;
-    border: 2px solid white;
+    border: 2px solid #f9f9f9;
+    background-color: #f9f9f9;
     border-radius: 120px;
-    color: white;
+    color: #262626;
     font-size: 2.5rem;
     line-height: 3rem;
     display: flex;
     align-items: center;
     gap: 10px;
-    font-weight: 100;
+    font-weight: 500;
     transition: gap 0.5s;
 
     &:hover {
@@ -84,13 +78,13 @@
 
     &__img {
       height: 2.5rem;
-      filter: invert(1);
+      filter: invert(0.1);
     }
   }
 
-  @media (max-width: 720px) {
+  @media (max-width: 899px) {
     .wall-text {
-      font-size: 4rem;
+      font-size: 3.5rem;
     }
 
     .sub-text {
@@ -98,7 +92,7 @@
     }
 
     .geolink {
-      font-size: 1.8rem;
+      font-size: 1.5rem;
       line-height: 2rem;
     }
   }

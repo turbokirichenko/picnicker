@@ -1,10 +1,11 @@
 <script>
+  import { fade } from "svelte/transition";
   import { cardModule } from "~/entities/card";
-  import Page from "~/widgets/page/index.svelte";
   import Hcard from "~/widgets/hcard/index.svelte";
   import AnimateLayout from "~/widgets/animate-layout/index.svelte";
   import QRcode from "~/widgets/qr-code.svelte";
   import MenuButton from "~/widgets/menu-button.svelte";
+  import PhoneSimulation from "~/widgets/phone-simulation.svelte";
 
   let layer = 0;
   let openQR = false;
@@ -17,28 +18,50 @@
   $: console.log(hash);
 </script>
 
-<Page>
-  <AnimateLayout view={viewMode} bind:layer>
-    {#if screenshotMode}
-      <div class="screenshot-layout" />
-      <div class="screenshot-line" />
-    {:else}
-      <div class="menu-wrapper">
-        <MenuButton bind:openQR />
-      </div>
-      <footer class="footer-wrapper" />
-    {/if}
-    <div class="hcard-wrapper">
-      {#if openQR}
-        <QRcode {hash} bind:clicked={screenshotMode} />
+<div transition:fade={{ duration: 1000 }} class="place">
+  <PhoneSimulation>
+    <AnimateLayout view={viewMode} bind:layer>
+      {#if screenshotMode}
+        <div class="screenshot-layout" />
+        <div class="screenshot-line" />
       {:else}
-        <Hcard view={viewMode} bind:data />
+        <div class="menu-wrapper">
+          <MenuButton bind:openQR />
+        </div>
+        <footer class="footer-wrapper" />
       {/if}
-    </div>
-  </AnimateLayout>
-</Page>
+      <div class="hcard-wrapper">
+        {#if openQR}
+          <QRcode {hash} bind:clicked={screenshotMode} />
+        {:else}
+          <Hcard view={viewMode} bind:data />
+        {/if}
+      </div>
+    </AnimateLayout>
+  </PhoneSimulation>
+</div>
 
 <style lang="scss">
+  .place {
+    width: 100%;
+    height: 100vh;
+    min-height: 720px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+  }
+
+  .phone-simulation {
+    width: 100%;
+    height: 100%;
+    &__content {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      top: 0;
+      left: 0;
+    }
+  }
   .screenshot-layout {
     position: absolute;
     top: 0;
@@ -93,6 +116,28 @@
     }
     100% {
       width: 0%;
+    }
+  }
+
+  @media (min-width: 900px) {
+    .phone-simulation {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      max-width: 480px;
+      width: 90%;
+      height: 90%;
+
+      &__content {
+        border-radius: 30px;
+        width: 85%;
+        height: 90%;
+        position: relative;
+        top: 0;
+        left: 0;
+        border: 10px solid #f9f9f980;
+        overflow: hidden;
+      }
     }
   }
 </style>
